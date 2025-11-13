@@ -5,15 +5,6 @@ p_Leg_1_3=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-4*width_Window,0,0
 
 p_Leg_1_2=newp; Point(newp) = {-width_Core/2-2*width_Core_Leg-4*width_Window,height_Core/2,0,c_Core};
 p_Leg_1_4=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-4*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
-// Altijd de lijnen in een groeppe array steken om daarna in 1 keer een oppervlakte te maken
-l_Core_Leg_1[]={};
-// lijn links
-l_Core_Leg_1[]+=newl; Line(newl) = {p_Leg_1_1,p_Leg_1_2};
-// lijn onder
-l_Core_Leg_1[]+=newl; Line(newl) = {p_Leg_1_1,p_Leg_1_3};
-// lijn rechts
-l_Core_Leg_1[]+=newl; Line(newl) = {p_Leg_1_3,p_Leg_1_4};
-
 
  // tweede been van links
 p_Leg_2_5=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-2*width_Window,0,0,c_Core};
@@ -22,29 +13,12 @@ p_Leg_2_7=newp; Point(newp) = {-width_Core/2-2*width_Window,0,0,c_Core};
 p_Leg_2_6=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-2*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 p_Leg_2_8=newp; Point(newp) = {-width_Core/2-2*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 
-l_Core_Leg_2[]={};
-// lijn links
-l_Core_Leg_2[]+=newl; Line(newl) = {p_Leg_2_5,p_Leg_2_6};
-// lijn onder
-l_Core_Leg_2[]+=newl; Line(newl) = {p_Leg_2_5,p_Leg_2_7};
-// lijn rechts
-l_Core_Leg_2[]+=newl; Line(newl) = {p_Leg_2_7,p_Leg_2_8};
-
-
 // middelste been
 p_Leg_3_9=newp; Point(newp) = {-width_Core_Leg/2,0,0,c_Core};
 p_Leg_3_11=newp; Point(newp) = {width_Core_Leg/2,0,0,c_Core};
 
 p_Leg_3_10=newp; Point(newp) = {-width_Core_Leg/2,height_Core/2-width_Core_Leg,0,c_Core};
 p_Leg_3_12=newp; Point(newp) = {width_Core_Leg/2,height_Core/2-width_Core_Leg,0,c_Core};
-
-l_Core_Leg_3[]={};
-// lijn links
-l_Core_Leg_3[]+=newl; Line(newl) = {p_Leg_3_9,p_Leg_3_10};
-// lijn onder
-l_Core_Leg_3[]+=newl; Line(newl) = {p_Leg_3_9,p_Leg_3_11};        
-// lijn rechts
-l_Core_Leg_3[]+=newl; Line(newl) = {p_Leg_3_11,p_Leg_3_12};
 
 // tweede been van rechts
 p_Leg_4_13=newp; Point(newp) = {width_Core/2+2*width_Window,0,0,c_Core};
@@ -53,13 +27,6 @@ p_Leg_4_15=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+2*width_Window,0,0
 p_Leg_4_14=newp; Point(newp) = {width_Core/2+2*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 p_Leg_4_16=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+2*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 
-l_Core_Leg_4[]={};
-// lijn links
-l_Core_Leg_4[]+=newl; Line(newl) = {p_Leg_4_13,p_Leg_4_14};       
-// lijn onder
-l_Core_Leg_4[]+=newl; Line(newl) = {p_Leg_4_13,p_Leg_4_15};
-// lijn rechts
-l_Core_Leg_4[]+=newl; Line(newl) = {p_Leg_4_15,p_Leg_4_16};
 // meest rechtse been
 p_Leg_5_17=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+4*width_Window,0,0,c_Core};
 p_Leg_5_19=newp; Point(newp) = {width_Core/2+2*width_Core_Leg+4*width_Window,0,0,c_Core};
@@ -68,32 +35,52 @@ p_Leg_5_18=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+4*width_Window,hei
 
 p_Leg_5_20=newp; Point(newp) = {width_Core/2+2*width_Core_Leg+4*width_Window,height_Core/2,0,c_Core};
 
-l_Core_Leg_5[]={};
-// lijn links
-l_Core_Leg_5[]+=newl; Line(newl) = {p_Leg_5_17,p_Leg_5_18};
-// lijn onder
-l_Core_Leg_5[]+=newl; Line(newl) = {p_Leg_5_17,p_Leg_5_19};
-// lijn rechts
-l_Core_Leg_5[]+=newl; Line(newl) = {p_Leg_5_19,p_Leg_5_20};
+l_Core_In_1[]={};
 
-l_Core_Top[]={};
-// bovenste lijn
-l_Core_Top[]+=newl; Line(newl) = {p_Leg_1_2,p_Leg_5_20};
-// Lijnen onderaan de kern
-l_Core_Bottom[]={};
-l_Core_Bottom[]+=newl; Line(newl) = {p_Leg_1_4,p_Leg_2_6};
-l_Core_Bottom[]+=newl; Line(newl) = {p_Leg_2_8,p_Leg_3_10};
-l_Core_Bottom[]+=newl; Line(newl) = {p_Leg_3_12,p_Leg_4_14};
-l_Core_Bottom[]+=newl; Line(newl) = {p_Leg_4_16,p_Leg_5_18};
-l
+l_Core_In_1[]+=newl; Line(newl) = {p_Leg_1_3,p_Leg_1_4};
+l_Core_In_1[]+=newl; Line(newl) = {p_Leg_1_4,p_Leg_2_6};
+l_Core_In_1[]+=newl; Line(newl) = {p_Leg_2_6,p_Leg_2_5};
 
+l_Core_In_2[]={};
+l_Core_In_2[]+=newl; Line(newl) = {p_Leg_2_7,p_Leg_2_8};
+l_Core_In_2[]+=newl; Line(newl) = {p_Leg_2_8,p_Leg_3_10};
+l_Core_In_2[]+=newl; Line(newl) = {p_Leg_3_10,p_Leg_3_9};
 
+l_Core_In_3[]={};
+l_Core_In_3[]+=newl; Line(newl) = {p_Leg_3_11,p_Leg_3_12};
+l_Core_In_3[]+=newl; Line(newl) = {p_Leg_3_12,p_Leg_4_14};
+l_Core_In_3[]+=newl; Line(newl) = {p_Leg_4_14,p_Leg_4_13};
+
+l_Core_In_4[]={};
+l_Core_In_4[]+=newl; Line(newl) = {p_Leg_4_15,p_Leg_4_16};
+l_Core_In_4[]+=newl; Line(newl) = {p_Leg_4_16,p_Leg_5_18};
+l_Core_In_4[]+=newl; Line(newl) = {p_Leg_5_18,p_Leg_5_17};
+
+l_Core_Out[]={};
+l_Core_Out[]+=newl; Line(newl) = {p_Leg_5_19,p_Leg_5_20};
+l_Core_Out[]+=newl; Line(newl) = {p_Leg_5_20,p_Leg_1_2};
+l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_2,p_Leg_1_1};
+
+l_Core_Leg_1_Y0[]={};
+l_Core_Leg_1_Y0[]+=newl; Line(newl) = {p_Leg_1_1,p_Leg_1_3};
+
+l_Core_Leg_2_Y0[]={};
+l_Core_Leg_2_Y0[]+=newl; Line(newl) = {p_Leg_2_5,p_Leg_2_7};
+
+l_Core_Leg_3_Y0[]={};
+l_Core_Leg_3_Y0[]+=newl; Line(newl) = {p_Leg_3_9,p_Leg_3_11};
+
+l_Core_Leg_4_Y0[]={};
+l_Core_Leg_4_Y0[]+=newl; Line(newl) = {p_Leg_4_13,p_Leg_4_15};
+
+l_Core_Leg_5_Y0[]={};
+l_Core_Leg_5_Y0[]+=newl; Line(newl) = {p_Leg_5_17,p_Leg_5_19};
 
 
 // maak de oppervlakte van de kern
 // 1st lijnen toevoegen aan curve loop
 // 2nd oppervlakte maken
-ll_Core=newll; Curve Loop(newll) = {l_Core_Leg_1[],l_Core_Leg_2[],l_Core_Leg_3[],l_Core_Leg_4[],l_Core_Leg_5[],l_Core_Top[],l_Core_Bottom[]};
+ll_Core=newll; Curve Loop(newll) = {l_Core_Leg_1_Y0[], l_Core_In_1[], l_Core_Leg_2_Y0[], l_Core_In_2[], l_Core_Leg_3_Y0[], l_Core_In_3[], l_Core_Leg_4_Y0[], l_Core_In_4[], l_Core_Leg_5_Y0[], l_Core_Out[]};
 s_Core=news; Plane Surface(news) = {ll_Core};
 
 Physical Surface("CORE", CORE) = {s_Core};
@@ -192,7 +179,7 @@ l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_int_1,p_Coil_p2_H_neg_ext
 // maak de oppervlakte van de coil
 ll_Coil_p2_H_neg=newll; Curve Loop(newll) = {l_Coil_p2_H_neg[]};
 s_Coil_p2_H_neg=news; Plane Surface(news) = {ll_Coil_p2_H_neg};
-Physical Surface("COIL_P2_H_NEG", COIL_P2_H_NEG) = {s_Coil_p2_H_neg};
+Physical Surface("COIl_Core_Leg_1[],l_Core_Leg_2[],l_Core_Leg_3[],l_Core_Leg_4[],l_Core_Leg_5[],l_Core_Top[],l_Core_Bottom[]L_P2_H_NEG", COIL_P2_H_NEG) = {s_Coil_p2_H_neg};
 
 
 // --- Coils for LEG 2 (both low/high, + and -) ---
@@ -323,3 +310,72 @@ l_Coil_p3_H_neg[]+=newl; Line(newl) = {p_Coil_p3_H_neg_int_1,p_Coil_p3_H_neg_ext
 ll_Coil_p3_H_neg=newll; Curve Loop(newll) = {l_Coil_p3_H_neg[]};
 s_Coil_p3_H_neg=news; Plane Surface(news) = {ll_Coil_p3_H_neg};
 Physical Surface("COIL_P3_H_NEG", COIL_P3_L_NEG) = {s_Coil_p3_H_neg};
+
+//-------------------------------------------------------------
+// AIR WINDOW & AIR EXT FOR 3-PHASE TRANSFORMER
+//-------------------------------------------------------------
+
+// ====== PHASE 1 ======
+l_Air_Window_Y0_p1[] = {};
+l_Air_Window_Y0_p1[] += newl; Line(newl) = {p_Leg_1_3, p_Coil_p1_H_pos_int_0};
+l_Air_Window_Y0_p1[] += newl; Line(newl) = {p_Coil_p1_H_pos_ext_0, p_Coil_p1_L_neg_ext_0};
+l_Air_Window_Y0_p1[] += newl; Line(newl) = {p_Coil_p1_L_neg_int_0, p_Leg_2_7};
+
+ll_Air_Window_p1 = newll; Curve Loop(newll) = {l_Air_Window_Y0_p1[]};
+s_Air_Window_p1 = news; Plane Surface(news) = {ll_Air_Window_p1};
+Physical Surface("AIR_WINDOW_P1", AIR_WINDOW_P1) = {s_Air_Window_p1};
+
+
+// ====== PHASE 2 ======
+l_Air_Window_Y0_p2[] = {};
+l_Air_Window_Y0_p2[] += newl; Line(newl) = {p_Leg_2_7, p_Coil_p2_H_pos_int_0};
+l_Air_Window_Y0_p2[] += newl; Line(newl) = {p_Coil_p2_H_pos_ext_0, p_Coil_p2_L_neg_ext_0};
+l_Air_Window_Y0_p2[] += newl; Line(newl) = {p_Coil_p2_L_neg_int_0, p_Leg_3_11};
+
+ll_Air_Window_p2 = newll; Curve Loop(newll) = {l_Air_Window_Y0_p2[]};
+s_Air_Window_p2 = news; Plane Surface(news) = {ll_Air_Window_p2};
+Physical Surface("AIR_WINDOW_P2", AIR_WINDOW_P2) = {s_Air_Window_p2};
+
+
+// ====== PHASE 3 ======
+l_Air_Window_Y0_p3[] = {};
+l_Air_Window_Y0_p3[] += newl; Line(newl) = {p_Leg_3_11, p_Coil_p3_H_pos_int_0};
+l_Air_Window_Y0_p3[] += newl; Line(newl) = {p_Coil_p3_H_pos_ext_0, p_Coil_p3_L_neg_ext_0};
+l_Air_Window_Y0_p3[] += newl; Line(newl) = {p_Coil_p3_L_neg_int_0, p_Leg_4_15};
+
+ll_Air_Window_p3 = newll; Curve Loop(newll) = {l_Air_Window_Y0_p3[]};
+s_Air_Window_p3 = news; Plane Surface(news) = {ll_Air_Window_p3};
+Physical Surface("AIR_WINDOW_P3", AIR_WINDOW_P3) = {s_Air_Window_p3};
+
+
+//-------------------------------------------------------------
+// AIR EXT SECTIONS
+//-------------------------------------------------------------
+
+// For right side
+x_[] = Point{p_Leg_5_20};
+p_Air_Ext_R_0 = newp; Point(newp) = {x_[0] + gap_Core_Box_X, 0, 0, c_Box};
+p_Air_Ext_R_1 = newp; Point(newp) = {x_[0] + gap_Core_Box_X, x_[1] + gap_Core_Box_Y, 0, c_Box};
+
+// For left side
+x_[] = Point{p_Leg_1_1};
+p_Air_Ext_L_0 = newp; Point(newp) = {x_[0] - gap_Core_Box_X, 0, 0, c_Box};
+p_Air_Ext_L_1 = newp; Point(newp) = {x_[0] - gap_Core_Box_X, x_[1] + gap_Core_Box_Y, 0, c_Box};
+
+l_Air_Ext[] = {};
+l_Air_Ext[] += newl; Line(newl) = {p_Air_Ext_R_0, p_Air_Ext_R_1};
+l_Air_Ext[] += newl; Line(newl) = {p_Air_Ext_R_1, p_Air_Ext_L_1};
+l_Air_Ext[] += newl; Line(newl) = {p_Air_Ext_L_1, p_Air_Ext_L_0};
+
+// Connect outer sides
+l_Air_Ext_Y0[] = {};
+l_Air_Ext_Y0[] += newl; Line(newl) = {p_Leg_5_17, p_Coil_p3_H_pos_int_0};
+l_Air_Ext_Y0[] += newl; Line(newl) = {p_Coil_p3_H_pos_ext_0, p_Air_Ext_R_0};
+l_Air_Ext_Y0[] += newl; Line(newl) = {p_Air_Ext_L_0, p_Coil_p1_L_neg_ext_0};
+l_Air_Ext_Y0[] += newl; Line(newl) = {p_Coil_p1_L_neg_int_0, p_Leg_1_3};
+
+ll_Air_Ext = newll; Curve Loop(newll) = {l_Air_Ext[], l_Air_Ext_Y0[]};
+s_Air_Ext = news; Plane Surface(news) = {ll_Air_Ext};
+
+Physical Surface("AIR_EXT", AIR_EXT) = {s_Air_Ext};
+Physical Curve("SUR_AIR_EXT", SUR_AIR_EXT) = {l_Air_Ext[]};
