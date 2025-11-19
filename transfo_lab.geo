@@ -421,9 +421,9 @@ l_Air_Ext[] += newl; Line(newl) = {p_Air_Ext_L_1, p_Air_Ext_L_0};
 // Connect outer sides
 l_Air_Ext_Y0[] = {};
 l_Air_Ext_Y0[] += newl; Line(newl) = {p_Leg_5_19, p_Air_Ext_R_0};
-l_Air_Ext_Y0[] += newl; Line(newl) = {p_Air_Ext_L_0, p_Leg_1_3};
+l_Air_Ext_Y0[] += newl; Line(newl) = {p_Air_Ext_L_0, p_Leg_1_1};
 
-ll_Air_Ext = newll; Curve Loop(newll) = {l_Air_Ext_Y0[0], l_Air_Ext[], l_Air_Ext_Y0[1]};
+ll_Air_Ext = newll; Curve Loop(newll) = {l_Air_Ext_Y0[0], l_Air_Ext[], l_Air_Ext_Y0[1],-l_Core_Out[2],-l_Core_Out[1],-l_Core_Out[0]};
 s_Air_Ext = news; Plane Surface(news) = {ll_Air_Ext};
 
 Physical Surface("AIR_EXT", AIR_EXT) = {s_Air_Ext};
