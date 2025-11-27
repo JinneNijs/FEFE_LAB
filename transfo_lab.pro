@@ -21,7 +21,7 @@ DefineConstant[
   // way as far as circuit-coupling is concerned
 
   // 1: massive conductors; 2: stranded conductors (coils)
-  ConductorType = {2, Choices{1 = "Massive", 2 = "Coil"}, Highlight "Blue",
+  ConductorType = {1, Choices{1 = "Massive", 2 = "Coil"}, Highlight "Blue",
     Name "Parameters/01Conductor type"}
     
     // Frequency in Hz
@@ -33,6 +33,8 @@ DefineConstant[
     // Relative permeability of the core material
   mur_Core = {1000, Min 1, Max 10000, Step 1,
     Name "Parameters/Core relative permeability"}
+  input_voltage = {1200,
+    Name "Parameters/Input RMS voltage per phase"}
 ];
 
 Group {
@@ -57,6 +59,7 @@ Group {
   Coil_p2_L = Region[{Coil_p2_L_P, Coil_p2_L_M}]; // 2nd phase, positive side
   Coil_p2_H = Region[{Coil_p2_H_P, Coil_p2_H_M}]; // 2nd phase, negative side
   Coil_p2 = Region[{Coil_p2_L, Coil_p2_H}]; // full 2nd phase coil
+
 
   Coil_p3_L_P = Region[COIL_P3_L_POS]; // 3rd phase, low side, positive side
   Coil_p3_L_M = Region[COIL_P3_L_NEG]; // 3rd phase, low side, negative side
@@ -88,6 +91,7 @@ Function {
   nu[] = 1 / mu[];
 
   sigma[Coils] = 1e7;
+  sigma[Core] = 1e4;
 
   // To be defined separately for each coil portion, to fix the convention of
   // positive current (1: along Oz, -1: along -Oz)
@@ -167,44 +171,50 @@ Group {
   SourceI_Cir = Region[{}]; // all current sources
 
   // Primary side phase 1
-  E_in_p1 = Region[10001]; // arbitrary region number (not linked to the mesh)
+  E_in_p1 = Region[10011]; // arbitrary region number (not linked to the mesh)
   SourceV_Cir_p1 += Region[{E_in_p1}];
-  R_in_p1 = Region[10002]; // arbitrary region number (not linked to the mesh)
+
+  R_in_p1 = Region[10012]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_in_p1}];
 
   // Secondary side phase 1
-  R_out_p1 = Region[10101]; // arbitrary region number (not linked to the mesh)
+  R_out_p1 = Region[10111]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_out_p1}];
 
-    // Primary side phase 2
-    E_in_p2 = Region[20001]; // arbitrary region number (not linked to the mesh)
-    SourceV_Cir_p2 += Region[{E_in_p2}];
-    R_in_p2 = Region[20002]; // arbitrary region number (not linked to the mesh)
-    Resistance_Cir += Region[{R_in_p2}];
+  // Primary side phase 2
+  E_in_p2 = Region[10021]; // arbitrary region number (not linked to the mesh)
+  SourceV_Cir_p2 += Region[{E_in_p2}];
 
-    // Secondary side phase 2
-    R_out_p2 = Region[20101]; // arbitrary region number (not linked to the mesh)
-    Resistance_Cir += Region[{R_out_p2}];
+  R_in_p2 = Region[10022]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_in_p2}];
+  // Secondary side phase 2
+  R_out_p2 = Region[10121]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_out_p2}];
+  
+  // Primary side phase 3
+  E_in_p3 = Region[10031]; // arbitrary region number (not linked to the mesh)
+  SourceV_Cir_p3 += Region[{E_in_p3}];
+  
+  R_in_p3 = Region[10032]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_in_p3}];
+  // Secondary side phase 3
+  R_out_p3 = Region[10131]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_out_p3}];
 
-    // Primary side phase 3
-    E_in_p3 = Region[30001]; // arbitrary region number (not linked to the mesh)
-    SourceV_Cir_p3 += Region[{E_in_p3}];
-    R_in_p3 = Region[30002]; // arbitrary region number (not linked to the mesh)
-    Resistance_Cir += Region[{R_in_p3}];
 
-    // Secondary side phase 3
-    R_out_p3 = Region[30101]; // arbitrary region number (not linked to the mesh)
-    Resistance_Cir += Region[{R_out_p3}];
+
 }
 
 Function {
   deg = Pi/180;
   // Input RMS voltage (half of the voltage because of symmetry; half coils are
   // defined!)
-  val_E_in_p1 = 1200.;
-  val_E_in_p2 = 1200.;
-  val_E_in_p3 = 1200.;
-  phase_E_in = 90 *deg; // Phase in radian (from phase in degree)
+  val_E_in_p1 = input_voltage;
+  val_E_in_p2 = input_voltage;
+  val_E_in_p3 = input_voltage;
+  phase_E_in_1 = 0; // Phase in radian (from phase in degree)
+  phase_E_in_2 = phase_E_in_1 +2*Pi/3; // Phase in radian (from phase in degree)
+  phase_E_in_3 = phase_E_in_2 +2*Pi/3; // Phase in radian (from phase in degree)
 
   // High value for an open-circuit test; Low value for a short-circuit test;
   // any value in-between for any charge
@@ -217,6 +227,8 @@ Function {
   Resistance[R_in_p1] = 1e-3;
   Resistance[R_in_p2] = 1e-3;
   Resistance[R_in_p3] = 1e-3;
+
+
 }
 
 Constraint {
@@ -243,81 +255,70 @@ Constraint {
         // F_Cos_wt_p[] is a built-in function with two parameters (w and p),
         // that can be used to evaluate cos(w * t + p) in both frequency- and
         // time-domain
-        TimeFunction F_Cos_wt_p[]{2*Pi*Freq, phase_E_in}; }
+        TimeFunction F_Cos_wt_p[]{2*Pi*Freq, phase_E_in_1}; }
+    }
+    Case {
+      { Region E_in_p2; Value val_E_in_p2;
+        // F_Cos_wt_p[] is a built-in function with two parameters (w and p),
+        // that can be used to evaluate cos(w * t + p) in both frequency- and
+        // time-domain
+        TimeFunction F_Cos_wt_p[]{2*Pi*Freq, phase_E_in_2}; }
+    }
+    Case {
+      { Region E_in_p3; Value val_E_in_p3;
+        // F_Cos_wt_p[] is a built-in function with two parameters (w and p),
+        // that can be used to evaluate cos(w * t + p) in both frequency- and
+        // time-domain
+        TimeFunction F_Cos_wt_p[]{2*Pi*Freq, phase_E_in_3}; }
     }
   }
-  { Name ElectricalCircuit ; Type Network ;
-    Case Circuit_p1_H {
+  { Name ElectricalCircui ; Type Network ;
+    Case Circuit_high_side {
       // PLUS and MINUS coil portions to be connected in series, together with
       // E_in; an additional resistor is defined in series to represent the
-      // Coil_1 end-winding, which is not considered in the 2D model.
-      { Region E_in_p1; Branch {1,4}; }
-      { Region R_in_p1; Branch {4,2}; }
+      // Coil end-winding, which is not considered in the 2D model.
 
-      { Region Coil_p1_H_P; Branch {2,3} ; }
-      { Region Coil_p1_H_M; Branch {3,1} ; }
+      // Y-connection of the primary winding
+
+      { Region E_in_p1; Branch{1,2}; }
+      { Region R_in_p1; Branch{2,3}; }
+
+      { Region Coil_p1_H_P; Branch{3,4}; }
+      { Region Coil_p1_H_M; Branch{4,1}; }
+
+      { Region E_in_p2; Branch{1,5}; }
+      { Region R_in_p2; Branch{5,6}; }
+
+      { Region Coil_p2_H_P; Branch{6,7}; }
+      { Region Coil_p2_H_M; Branch{7,1}; }
+
+      { Region E_in_p3; Branch{1,8}; }
+      { Region R_in_p3; Branch{8,9}; }
+
+      { Region Coil_p3_H_P; Branch{9,10}; }
+      { Region Coil_p3_H_M; Branch{10,1}; }
     }
-    Case Circuit_p1_L {
+    Case Circuit_low_side {
       // PLUS and MINUS coil portions to be connected in series, together with
-      // R_out (an additional resistor could be defined to represent the Coil_2
-      // end-winding - but we can directly add it to R_out as well)
-      { Region R_out_p1; Branch {1,2}; }
-
-      { Region Coil_p1_L_P; Branch {2,3} ; }
-      { Region Coil_p1_L_M; Branch {3,1} ; }
-    }
-    Case Circuit_p2_H {
-      // PLUS and MINUS coil portions to be connected in series together with
       // E_in; an additional resistor is defined in series to represent the
-        // Coil_1 end-winding, which is not considered in the 2D model.
-      { Region E_in_p2; Branch {5,8}; }
-      { Region R_in_p2; Branch {8,6}; }
+      // Coil end-winding, which is not considered in the 2D model.
+      // Y-connection of the secondary winding
+      { Region R_out_p1; Branch{1,4}; }
 
-      { Region Coil_p2_H_P; Branch {6,7} ; }
-      { Region Coil_p2_H_M; Branch {7,5} ; }
-    }
-    Case Circuit_p2_L {
-      // PLUS and MINUS coil portions to be connected in series, together with
-      // R_out (an additional resistor could be defined to represent the Coil_2
-      // end-winding - but we can directly add it to R_out as well)
-      { Region R_out_p2; Branch {5,6}; }
+      { Region Coil_p1_L_P; Branch{4,5}; }
+      { Region Coil_p1_L_M; Branch{5,1}; }
 
-      { Region Coil_p2_L_P; Branch {5,7} ; }
-      { Region Coil_p2_L_M; Branch {7,6} ; }
-    }
-    Case Circuit_p3_H {
-      // PLUS and MINUS coil portions to be connected in series together with
-      // E_in; an additional resistor is defined in series to represent the
-        // Coil_1 end-winding, which is not considered in the 2D model.
-      { Region E_in_p3; Branch {9,12}; }
-      { Region R_in_p3; Branch {12,10}; }
+      { Region R_out_p2; Branch{1,6}; }
 
-      { Region Coil_p3_H_P; Branch {9,11} ; }
-      { Region Coil_p3_H_M; Branch {11,10} ; }
-    }
-    Case Circuit_p3_L {
-      // PLUS and MINUS coil portions to be connected in series, together with
-      // R_out (an additional resistor could be defined to represent the Coil_2
-      // end-winding - but we can directly add it to R_out as well)
-      { Region R_out_p3; Branch {9,10}; }
+      { Region Coil_p2_L_P; Branch{6,7}; }
+      { Region Coil_p2_L_M; Branch{7,1}; }
 
-      { Region Coil_p3_L_P; Branch {9,11} ; }
-      { Region Coil_p3_L_M; Branch {11,10} ; }
+      { Region R_out_p3; Branch{1,8}; }
+
+      { Region Coil_p3_L_P; Branch{8,9}; }
+      { Region Coil_p3_L_M; Branch{9,1}; }
+
     }
-   /*Case Circuit_Connection_3phases_high {
-      // Connection of the three phases on the high voltage side in a star
-      // configuration (neutral point not connected)
-      { Region Coil_p1_H_P; Branch {1,2} ; }
-      { Region Coil_p2_H_P; Branch {2,3} ; }
-      { Region Coil_p3_H_P; Branch {3,1} ; }
-    }
-    Case Circuit_Connection_3phases_low {
-        // Connection of the three phases on the low voltage side in a star
-        // configuration (neutral point not connected)
-      { Region Coil_p1_L_P; Branch {1,2} ; }
-      { Region Coil_p2_L_P; Branch {2,3} ; }
-      { Region Coil_p3_L_P; Branch {3,1} ; }
-    }*/
   }
 }
 
@@ -332,15 +333,31 @@ PostOperation {
       If (Flag_FrequencyDomain)
         // In text file UI.txt: voltage and current of the primary coil (from
         // E_in) (real and imaginary parts!)
-        Echo[ "E_in", Format Table, File "UI.txt" ];
+        Echo[ "E_in_p1", Format Table, File "UI.txt" ];
         Print[ U, OnRegion E_in_p1, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p1, Format FrequencyTable, File > "UI.txt"];
 
+        Echo[ "E_in_p2", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
+
+        Echo[ "E_in_p3", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt"];
+
         // In text file UI.txt: voltage and current of the secondary coil (from
         // R_out)
-        Echo[ "R_out", Format Table, File > "UI.txt" ];
+        Echo[ "R_out_p1", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion R_out_p1, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion R_out_p1, Format FrequencyTable, File > "UI.txt"];
+
+        Echo[ "R_out_p2", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion R_out_p2, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion R_out_p2, Format FrequencyTable, File > "UI.txt"];
+
+        Echo[ "R_out_p3", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
     }
   }
