@@ -69,9 +69,12 @@ Group {
   Coil_p3_H = Region[{Coil_p3_H_P, Coil_p3_H_M}]; // 3rd phase, negative side
   Coil_p3 = Region[{Coil_p3_L, Coil_p3_H}]; // full 3rd phase coil
 
-  Coils = Region[{Coil_p1, Coil_p2, Coil_p3}]; // all coils
 
- 
+
+  Coils_Low = Region[{Coil_p1_L, Coil_p2_L, Coil_p3_L}]; // all low side coils
+  Coils_High = Region[{Coil_p1_H, Coil_p2_H, Coil_p3_H}]; // all high side coils
+
+  Coils = Region[{Coils_Low, Coils_High}]; // all coils
 
   // Abstract regions that will be used in the "Lib_Magnetodynamics2D_av_Cir.pro"
   // template file included below;
@@ -95,18 +98,22 @@ Function {
 
   // To be defined separately for each coil portion, to fix the convention of
   // positive current (1: along Oz, -1: along -Oz)
-  SignBranch[Coil_p1_L_P] = 1;
-  SignBranch[Coil_p1_L_M] = -1;
-  SignBranch[Coil_p1_H_P] = 1;
-  SignBranch[Coil_p1_H_M] = -1;
-  SignBranch[Coil_p2_L_P] = 1;
-  SignBranch[Coil_p2_L_M] = -1;
-  SignBranch[Coil_p2_H_P] = 1;
-  SignBranch[Coil_p2_H_M] = -1;
-  SignBranch[Coil_p3_L_P] = 1;
-  SignBranch[Coil_p3_L_M] = -1;
-  SignBranch[Coil_p3_H_P] = 1;
-  SignBranch[Coil_p3_H_M] = -1;
+
+  // Dependent on direction of winding defined in geometry, the normal vector changes sides. Based on that we need to adjust the sign of each branch accordingly
+  SignBranch[Coil_p1_L_P] = -1; // linksdraaiend
+  SignBranch[Coil_p1_L_M] = 1; // linksdraaiend
+  SignBranch[Coil_p1_H_P] = -1; // linksdraaiend
+  SignBranch[Coil_p1_H_M] = 1; // linksdraaiend
+
+  SignBranch[Coil_p2_L_P] = 1; // rechtsdraaiend
+  SignBranch[Coil_p2_L_M] = -1; // rechtsdraaiend
+  SignBranch[Coil_p2_H_P] = 1; // rechtsdraaiend
+  SignBranch[Coil_p2_H_M] = -1; // rechtsdraaiend
+
+  SignBranch[Coil_p3_L_P] = -1; // linksdraaiend
+  SignBranch[Coil_p3_L_M] = 1; // linksdraaiend
+  SignBranch[Coil_p3_H_P] = -1; // linksdraaiend
+  SignBranch[Coil_p3_H_M] = 1; // linksdraaiend
 
 
   If(ConductorType == 2)
@@ -118,7 +125,7 @@ Function {
 
     Ns[Coil_p2_L] = 100;
     Ns[Coil_p2_H] = 20; 
-
+    
     Ns[Coil_p3_L] = 100;
     Ns[Coil_p3_H] = 20;
 
@@ -143,7 +150,6 @@ Function {
   EndIf
 
   // For a correct definition of the voltage
-  thickness_Core = 1.;
   CoefGeos[Coils] = SignBranch[] * thickness_Core;
 
   // Parameters and computing the iron losses in the magnetic core
@@ -220,9 +226,9 @@ Function {
 
   // High value for an open-circuit test; Low value for a short-circuit test;
   // any value in-between for any charge
-  Resistance[R_out_p1] = 10;
-  Resistance[R_out_p2] = 10;
-  Resistance[R_out_p3] = 10;
+  Resistance[R_out_p1] = 1000;
+  Resistance[R_out_p2] = 1000;
+  Resistance[R_out_p3] = 1000;
 
   // End-winding primary winding resistance for more realistic primary coil
   // model

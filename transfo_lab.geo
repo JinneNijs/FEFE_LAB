@@ -429,3 +429,5 @@ s_Air_Ext = news; Plane Surface(news) = {ll_Air_Ext};
 Physical Surface("AIR_EXT", AIR_EXT) = {s_Air_Ext};
 Physical Curve("SUR_AIR_EXT", SUR_AIR_EXT) = {l_Air_Ext[]};
 
+//+
+Show "*";
