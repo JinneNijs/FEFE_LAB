@@ -108,18 +108,19 @@ Function {
   SignBranch[Coil_p3_H_P] = 1;
   SignBranch[Coil_p3_H_M] = -1;
 
+
   If(ConductorType == 2)
     // Number of turns in the coils (same for PLUS and MINUS portions) - half
     // values because half coils are defined geometrically due to symmetry!
     // Means that the total number of turns will be twice these values, because we only draw half of the coils
     Ns[Coil_p1_L] = 100;
-    Ns[Coil_p1_H] = 10;
+    Ns[Coil_p1_H] = 20;
 
     Ns[Coil_p2_L] = 100;
-    Ns[Coil_p2_H] = 10;
+    Ns[Coil_p2_H] = 20; 
 
     Ns[Coil_p3_L] = 100;
-    Ns[Coil_p3_H] = 10;
+    Ns[Coil_p3_H] = 20;
 
     // To be defined separately for each coil portion:
     Sc[Coil_p1_L_P] = SurfaceArea[];
@@ -142,6 +143,7 @@ Function {
   EndIf
 
   // For a correct definition of the voltage
+  thickness_Core = 1.;
   CoefGeos[Coils] = SignBranch[] * thickness_Core;
 
   // Parameters and computing the iron losses in the magnetic core
@@ -172,7 +174,7 @@ Group {
 
   // Primary side phase 1
   E_in_p1 = Region[10011]; // arbitrary region number (not linked to the mesh)
-  SourceV_Cir_p1 += Region[{E_in_p1}];
+  SourceV_Cir += Region[{E_in_p1}];
 
   R_in_p1 = Region[10012]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_in_p1}];
@@ -183,7 +185,7 @@ Group {
 
   // Primary side phase 2
   E_in_p2 = Region[10021]; // arbitrary region number (not linked to the mesh)
-  SourceV_Cir_p2 += Region[{E_in_p2}];
+  SourceV_Cir += Region[{E_in_p2}];
 
   R_in_p2 = Region[10022]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_in_p2}];
@@ -193,7 +195,7 @@ Group {
   
   // Primary side phase 3
   E_in_p3 = Region[10031]; // arbitrary region number (not linked to the mesh)
-  SourceV_Cir_p3 += Region[{E_in_p3}];
+  SourceV_Cir += Region[{E_in_p3}];
   
   R_in_p3 = Region[10032]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_in_p3}];
@@ -272,54 +274,54 @@ Constraint {
         TimeFunction F_Cos_wt_p[]{2*Pi*Freq, phase_E_in_3}; }
     }
   }
-  { Name ElectricalCircui ; Type Network ;
-    Case Circuit_high_side {
+  { Name ElectricalCircuit ; Type Network ;
+    // Assistent zegt per kant en per zijde maken
+    Case Circuit_High_side {
       // PLUS and MINUS coil portions to be connected in series, together with
       // E_in; an additional resistor is defined in series to represent the
       // Coil end-winding, which is not considered in the 2D model.
 
       // Y-connection of the primary winding
 
-      { Region E_in_p1; Branch{1,2}; }
-      { Region R_in_p1; Branch{2,3}; }
-
+      { Region E_in_p1; Branch{1,2};}
+      { Region R_in_p1; Branch{2,3};}
       { Region Coil_p1_H_P; Branch{3,4}; }
       { Region Coil_p1_H_M; Branch{4,1}; }
 
+      
       { Region E_in_p2; Branch{1,5}; }
       { Region R_in_p2; Branch{5,6}; }
 
       { Region Coil_p2_H_P; Branch{6,7}; }
       { Region Coil_p2_H_M; Branch{7,1}; }
-
+      
       { Region E_in_p3; Branch{1,8}; }
       { Region R_in_p3; Branch{8,9}; }
 
       { Region Coil_p3_H_P; Branch{9,10}; }
       { Region Coil_p3_H_M; Branch{10,1}; }
     }
+
     Case Circuit_low_side {
       // PLUS and MINUS coil portions to be connected in series, together with
       // E_in; an additional resistor is defined in series to represent the
       // Coil end-winding, which is not considered in the 2D model.
       // Y-connection of the secondary winding
-      { Region R_out_p1; Branch{1,4}; }
+      { Region R_out_p1; Branch{1,2}; }
 
-      { Region Coil_p1_L_P; Branch{4,5}; }
-      { Region Coil_p1_L_M; Branch{5,1}; }
+      { Region Coil_p1_L_P; Branch{2,3}; }
+      { Region Coil_p1_L_M; Branch{3,1}; }
 
-      { Region R_out_p2; Branch{1,6}; }
+      { Region R_out_p2; Branch{1,4}; }
+      { Region Coil_p2_L_P; Branch{4,5}; }
+      { Region Coil_p2_L_M; Branch{5,1}; }
 
-      { Region Coil_p2_L_P; Branch{6,7}; }
-      { Region Coil_p2_L_M; Branch{7,1}; }
-
-      { Region R_out_p3; Branch{1,8}; }
-
-      { Region Coil_p3_L_P; Branch{8,9}; }
-      { Region Coil_p3_L_M; Branch{9,1}; }
-
+      
+      { Region R_out_p3; Branch{1,6}; }
+      { Region Coil_p3_L_P; Branch{6,7}; }
+      { Region Coil_p3_L_M; Branch{7,1}; }
     }
-  }
+  } 
 }
 
 Include "Lib_Magnetodynamics2D_av_Cir.pro";

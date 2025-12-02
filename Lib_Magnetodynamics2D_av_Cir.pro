@@ -21,7 +21,7 @@ DefineConstant[
   DeltaTime = 1/500, // time step (for time-domain simulations)
   FE_Order = 1, // finite element order
   Val_Rint = 0, // interior radius of annulus shell transformation region (Vol_Inf_Mag)
-  Val_Rext = 0 // exterior radius of annulus shell  transformation region (Vol_Inf_Mag)
+  Val_Rext = 0, // exterior radius of annulus shell  transformation region (Vol_Inf_Mag)
   Val_Cx = 0, // x-coordinate of center of Vol_Inf_Mag
   Val_Cy = 0, // y-coordinate of center of Vol_Inf_Mag
   Val_Cz = 0, // z-coordinate of center of Vol_Inf_Mag
