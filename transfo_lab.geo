@@ -98,14 +98,14 @@ p_Coil_p2_L_pos_ext_1=newp; Point(newp) = {x_[0]+gap_Core_Coil_p2_L+width_Coil_p
 
 l_Coil_p2_L_pos[]={};
 // lijn links
-l_Coil_p2_L_pos[]+=newl; Line(newl) = {p_Coil_p2_L_pos_int_0,p_Coil_p2_L_pos_int_1};
+l_Coil_p2_L_pos[]+=newl; Line(newl) = {p_Coil_p2_L_pos_int_1,p_Coil_p2_L_pos_int_0};
 // lijn boven
-l_Coil_p2_L_pos[]+=newl; Line(newl) = {p_Coil_p2_L_pos_int_1,p_Coil_p2_L_pos_ext_1};
+l_Coil_p2_L_pos[]+=newl; Line(newl) = {p_Coil_p2_L_pos_int_0,p_Coil_p2_L_pos_ext_0};
 // lijn rechts
-l_Coil_p2_L_pos[]+=newl; Line(newl) = {p_Coil_p2_L_pos_ext_1,p_Coil_p2_L_pos_ext_0};
+l_Coil_p2_L_pos[]+=newl; Line(newl) = {p_Coil_p2_L_pos_ext_0,p_Coil_p2_L_pos_ext_1};
 l_Coil_p2_L_pos_Y0[]={};
 // lijn onder
-l_Coil_p2_L_pos_Y0[]+=newl; Line(newl) = {p_Coil_p2_L_pos_ext_0,p_Coil_p2_L_pos_int_0};
+l_Coil_p2_L_pos_Y0[]+=newl; Line(newl) = {p_Coil_p2_L_pos_ext_1,p_Coil_p2_L_pos_int_1};
 
 
 // maak de oppervlakte van de coil
@@ -125,15 +125,15 @@ p_Coil_p2_H_pos_ext_1=newp; Point(newp) = {x_[0]+gap_Core_Coil_p2_L+width_Coil_p
 
 l_Coil_p2_H_pos[]={};
 // lijn links
-l_Coil_p2_H_pos[]+=newl; Line(newl) = {p_Coil_p2_H_pos_int_0,p_Coil_p2_H_pos_int_1};
+l_Coil_p2_H_pos[]+=newl; Line(newl) = {p_Coil_p2_H_pos_int_1,p_Coil_p2_H_pos_int_0};
 // lijn boven
-l_Coil_p2_H_pos[]+=newl; Line(newl) = {p_Coil_p2_H_pos_int_1,p_Coil_p2_H_pos_ext_1};
+l_Coil_p2_H_pos[]+=newl; Line(newl) = {p_Coil_p2_H_pos_int_0,p_Coil_p2_H_pos_ext_0};
 // lijn rechts
-l_Coil_p2_H_pos[]+=newl; Line(newl) = {p_Coil_p2_H_pos_ext_1,p_Coil_p2_H_pos_ext_0};
+l_Coil_p2_H_pos[]+=newl; Line(newl) = {p_Coil_p2_H_pos_ext_0,p_Coil_p2_H_pos_ext_1};
 
 // lijn onder
 l_Coil_p2_H_pos_Y0[]={};
-l_Coil_p2_H_pos_Y0[]+=newl; Line(newl) = {p_Coil_p2_H_pos_ext_0,p_Coil_p2_H_pos_int_0};
+l_Coil_p2_H_pos_Y0[]+=newl; Line(newl) = {p_Coil_p2_H_pos_ext_1,p_Coil_p2_H_pos_int_1};
 
 // maak de oppervlakte van de coil
 ll_Coil_p2_H_pos=newll; Curve Loop(newll) = {l_Coil_p2_H_pos[], l_Coil_p2_H_pos_Y0[]};
@@ -151,14 +151,14 @@ p_Coil_p2_L_neg_ext_1=newp; Point(newp) = {x_[0]-gap_Core_Coil_p2_L-width_Coil_p
 
 l_Coil_p2_L_neg[]={};
 // lijn links
-l_Coil_p2_L_neg[]+=newl; Line(newl) = {p_Coil_p2_L_neg_ext_0,p_Coil_p2_L_neg_ext_1};
+l_Coil_p2_L_neg[]+=newl; Line(newl) = {p_Coil_p2_L_neg_ext_1,p_Coil_p2_L_neg_ext_0};
 // lijn boven
-l_Coil_p2_L_neg[]+=newl; Line(newl) = {p_Coil_p2_L_neg_ext_1,p_Coil_p2_L_neg_int_1};
+l_Coil_p2_L_neg[]+=newl; Line(newl) = {p_Coil_p2_L_neg_ext_0,p_Coil_p2_L_neg_int_0};
 // lijn rechts
-l_Coil_p2_L_neg[]+=newl; Line(newl) = {p_Coil_p2_L_neg_int_1,p_Coil_p2_L_neg_int_0};
+l_Coil_p2_L_neg[]+=newl; Line(newl) = {p_Coil_p2_L_neg_int_0,p_Coil_p2_L_neg_int_1};
 // lijn onder
 l_Coil_p2_L_neg_Y0[]={};
-l_Coil_p2_L_neg_Y0[]+=newl; Line(newl) = {p_Coil_p2_L_neg_int_0,p_Coil_p2_L_neg_ext_0};
+l_Coil_p2_L_neg_Y0[]+=newl; Line(newl) = {p_Coil_p2_L_neg_int_1,p_Coil_p2_L_neg_ext_1};
 
 // maak de oppervlakte van de coil
 ll_Coil_p2_L_neg=newll; Curve Loop(newll) = {l_Coil_p2_L_neg[], l_Coil_p2_L_neg_Y0[]};
@@ -175,14 +175,14 @@ p_Coil_p2_H_neg_ext_1=newp; Point(newp) = {x_[0]-gap_Core_Coil_p2_L-width_Coil_p
 
 l_Coil_p2_H_neg[]={};
 // lijn links
-l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_ext_0,p_Coil_p2_H_neg_ext_1};
+l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_ext_1,p_Coil_p2_H_neg_ext_0};
 // lijn boven
-l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_ext_1,p_Coil_p2_H_neg_int_1};
+l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_ext_0,p_Coil_p2_H_neg_int_0};
 // lijn rechts
-l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_int_1,p_Coil_p2_H_neg_int_0};
+l_Coil_p2_H_neg[]+=newl; Line(newl) = {p_Coil_p2_H_neg_int_0,p_Coil_p2_H_neg_int_1};
 // lijn onder
 l_Coil_p2_H_neg_Y0[]={};
-l_Coil_p2_H_neg_Y0[]+=newl; Line(newl) = {p_Coil_p2_H_neg_int_0,p_Coil_p2_H_neg_ext_0};
+l_Coil_p2_H_neg_Y0[]+=newl; Line(newl) = {p_Coil_p2_H_neg_int_1,p_Coil_p2_H_neg_ext_1};
 
 
 // maak de oppervlakte van de coil
@@ -365,12 +365,27 @@ Physical Surface("AIR_WINDOW_W1", AIR_WINDOW_W1) = {s_Air_Window_w1};
 // AIR WINDOW 2
 l_Air_Window_Y0_w2[] = {};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_2_7, p_Coil_p1_L_pos_int_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_int_0, p_Coil_p1_L_pos_int_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_int_1, p_Coil_p1_L_pos_ext_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_ext_1, p_Coil_p1_L_pos_ext_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_ext_0, p_Coil_p1_H_pos_int_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_int_0, p_Coil_p1_H_pos_int_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_int_1, p_Coil_p1_H_pos_ext_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_ext_1, p_Coil_p1_H_pos_ext_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_ext_0, p_Coil_p2_H_neg_ext_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_ext_0, p_Coil_p2_H_neg_ext_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_ext_1, p_Coil_p2_H_neg_int_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_int_1, p_Coil_p2_H_neg_int_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_int_0, p_Coil_p2_L_neg_ext_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_ext_0, p_Coil_p2_L_neg_ext_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_ext_1, p_Coil_p2_L_neg_int_1};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_int_1, p_Coil_p2_L_neg_int_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_int_0, p_Leg_3_9};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_3_9, p_Leg_3_10};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_3_10, p_Leg_2_8};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_2_8, p_Leg_2_7};
 
-ll_Air_Window_w2 = newll; Curve Loop(newll) = {l_Core_In_2[],-l_Air_Window_Y0_w2[4],-l_Coil_p2_L_neg[],-l_Air_Window_Y0_w2[3],-l_Coil_p2_H_neg[],-l_Air_Window_Y0_w2[2],l_Coil_p1_H_pos[],-l_Air_Window_Y0_w2[1],l_Coil_p1_L_pos[], -l_Air_Window_Y0_w2[0]};
+ll_Air_Window_w2 = newll; Curve Loop(newll) = {l_Air_Window_Y0_w2[]};
 s_Air_Window_w2 = news; Plane Surface(news) = {ll_Air_Window_w2};
 Physical Surface("AIR_WINDOW_W2", AIR_WINDOW_W2) = {s_Air_Window_w2};
 
@@ -378,12 +393,30 @@ Physical Surface("AIR_WINDOW_W2", AIR_WINDOW_W2) = {s_Air_Window_w2};
 // AIR WINDOW 3
 l_Air_Window_Y0_w3[] = {};
 l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Leg_3_11, p_Coil_p2_L_pos_int_0};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_L_pos_int_0, p_Coil_p2_L_pos_int_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_L_pos_int_1, p_Coil_p2_L_pos_ext_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_L_pos_ext_1, p_Coil_p2_L_pos_ext_0};
 l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_L_pos_ext_0, p_Coil_p2_H_pos_int_0};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_H_pos_int_0, p_Coil_p2_H_pos_int_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_H_pos_int_1, p_Coil_p2_H_pos_ext_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_H_pos_ext_1, p_Coil_p2_H_pos_ext_0};
 l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p2_H_pos_ext_0, p_Coil_p3_H_neg_ext_0};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_H_neg_ext_0, p_Coil_p3_H_neg_ext_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_H_neg_ext_1, p_Coil_p3_H_neg_int_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_H_neg_int_1, p_Coil_p3_H_neg_int_0};
+
 l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_H_neg_int_0, p_Coil_p3_L_neg_ext_0};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_L_neg_ext_0, p_Coil_p3_L_neg_ext_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_L_neg_ext_1, p_Coil_p3_L_neg_int_1};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_L_neg_int_1, p_Coil_p3_L_neg_int_0};
 l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Coil_p3_L_neg_int_0, p_Leg_4_13};
 
-ll_Air_Window_w3 = newll; Curve Loop(newll) = {l_Core_In_3[],-l_Air_Window_Y0_w3[4],l_Coil_p3_L_neg[],-l_Air_Window_Y0_w3[3],l_Coil_p3_H_neg[],-l_Air_Window_Y0_w3[2],-l_Coil_p2_H_pos[],-l_Air_Window_Y0_w3[1],-l_Coil_p2_L_pos[], -l_Air_Window_Y0_w3[0]};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Leg_4_13, p_Leg_4_14};
+
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Leg_4_14, p_Leg_3_12};
+l_Air_Window_Y0_w3[] += newl; Line(newl) = {p_Leg_3_12, p_Leg_3_11};
+
+ll_Air_Window_w3 = newll; Curve Loop(newll) = {l_Air_Window_Y0_w3[]};
 s_Air_Window_w3 = news; Plane Surface(news) = {ll_Air_Window_w3};
 Physical Surface("AIR_WINDOW_W3", AIR_WINDOW_W3) = {s_Air_Window_w3};
 
@@ -431,3 +464,17 @@ Physical Curve("SUR_AIR_EXT", SUR_AIR_EXT) = {l_Air_Ext[]};
 
 //+
 Show "*";
+//+
+Coherence;
+//+
+Coherence;
+//+
+Coherence;
+//+
+Coherence;
+//+
+Coherence;
+//+
+Coherence;
+//+
+Coherence;

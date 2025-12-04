@@ -2,7 +2,7 @@
 // Dimensions
 
 width_Core = 1.;
-height_Core = 1.;
+height_Core = 2.;
 
 // Thickness along Oz (to be considered for a correct definition of voltage)
 thickness_Core = 1.;
@@ -49,7 +49,7 @@ gap_Coil_p3_L_Coil_p3_H = 0.05;
 
 // Gaps around the core (for air box)
 gap_Core_Box_X = 1.;
-gap_Core_Box_Y = 1.;
+gap_Core_Box_Y = 2.;
 
 // Characteristic lenghts (for mesh sizes)
 

@@ -21,7 +21,7 @@ DefineConstant[
   // way as far as circuit-coupling is concerned
 
   // 1: massive conductors; 2: stranded conductors (coils)
-  ConductorType = {1, Choices{1 = "Massive", 2 = "Coil"}, Highlight "Blue",
+  ConductorType = {1, Choices{2 = "Massive", 2 = "Coil"}, Highlight "Blue",
     Name "Parameters/01Conductor type"}
     
     // Frequency in Hz
@@ -100,20 +100,20 @@ Function {
   // positive current (1: along Oz, -1: along -Oz)
 
   // Dependent on direction of winding defined in geometry, the normal vector changes sides. Based on that we need to adjust the sign of each branch accordingly
-  SignBranch[Coil_p1_L_P] = -1; // linksdraaiend
-  SignBranch[Coil_p1_L_M] = 1; // linksdraaiend
-  SignBranch[Coil_p1_H_P] = -1; // linksdraaiend
-  SignBranch[Coil_p1_H_M] = 1; // linksdraaiend
+  SignBranch[Coil_p1_L_P] = 1; // linksdraaiend
+  SignBranch[Coil_p1_L_M] = -1; // linksdraaiend
+  SignBranch[Coil_p1_H_P] = 1; // linksdraaiend
+  SignBranch[Coil_p1_H_M] = -1; // linksdraaiend
 
-  SignBranch[Coil_p2_L_P] = 1; // rechtsdraaiend
-  SignBranch[Coil_p2_L_M] = -1; // rechtsdraaiend
-  SignBranch[Coil_p2_H_P] = 1; // rechtsdraaiend
-  SignBranch[Coil_p2_H_M] = -1; // rechtsdraaiend
+  SignBranch[Coil_p2_L_P] = 1; // linksdraaiend
+  SignBranch[Coil_p2_L_M] = -1; // linksdraaiend
+  SignBranch[Coil_p2_H_P] = 1; // linksdraaiend
+  SignBranch[Coil_p2_H_M] = -1; // linksdraaiend
 
-  SignBranch[Coil_p3_L_P] = -1; // linksdraaiend
-  SignBranch[Coil_p3_L_M] = 1; // linksdraaiend
-  SignBranch[Coil_p3_H_P] = -1; // linksdraaiend
-  SignBranch[Coil_p3_H_M] = 1; // linksdraaiend
+  SignBranch[Coil_p3_L_P] = 1; // linksdraaiend
+  SignBranch[Coil_p3_L_M] = -1; // linksdraaiend
+  SignBranch[Coil_p3_H_P] = 1; // linksdraaiend
+  SignBranch[Coil_p3_H_M] = -1; // linksdraaiend
 
 
   If(ConductorType == 2)
@@ -121,13 +121,13 @@ Function {
     // values because half coils are defined geometrically due to symmetry!
     // Means that the total number of turns will be twice these values, because we only draw half of the coils
     Ns[Coil_p1_L] = 100;
-    Ns[Coil_p1_H] = 20;
+    Ns[Coil_p1_H] = 10;
 
     Ns[Coil_p2_L] = 100;
-    Ns[Coil_p2_H] = 20; 
+    Ns[Coil_p2_H] = 10; 
     
     Ns[Coil_p3_L] = 100;
-    Ns[Coil_p3_H] = 20;
+    Ns[Coil_p3_H] = 10;
 
     // To be defined separately for each coil portion:
     Sc[Coil_p1_L_P] = SurfaceArea[];
@@ -222,7 +222,7 @@ Function {
   val_E_in_p3 = input_voltage;
   phase_E_in_1 = 0; // Phase in radian (from phase in degree)
   phase_E_in_2 = phase_E_in_1 +2*Pi/3; // Phase in radian (from phase in degree)
-  phase_E_in_3 = phase_E_in_2 +2*Pi/3; // Phase in radian (from phase in degree)
+  phase_E_in_3 = phase_E_in_1 +4*Pi/3; // Phase in radian (from phase in degree)
 
   // High value for an open-circuit test; Low value for a short-circuit test;
   // any value in-between for any charge
