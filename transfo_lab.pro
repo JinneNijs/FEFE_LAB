@@ -16,12 +16,13 @@
 Include "transfo_common.pro";
 
 DefineConstant[
+  po = "{Output/",
   // The "Massive" option is non-physical, but it's interesting to highlight the
   // fact that both massive and stranded conductors can be handled in the same
   // way as far as circuit-coupling is concerned
 
   // 1: massive conductors; 2: stranded conductors (coils)
-  ConductorType = {1, Choices{2 = "Massive", 2 = "Coil"}, Highlight "Blue",
+  ConductorType = {2, Choices{2 = "Massive", 2 = "Coil"}, Highlight "Blue",
     Name "Parameters/01Conductor type"}
     
     // Frequency in Hz
@@ -33,10 +34,23 @@ DefineConstant[
     // Relative permeability of the core material
   mur_Core = {1000, Min 1, Max 10000, Step 1,
     Name "Parameters/Core relative permeability"}
-  input_voltage = {1200,
+  Input_voltage = {1200,
     Name "Parameters/Input RMS voltage per phase"}
+  Operation_mode = {1, Choices{1 = "Normal", 2 = "Short-circuit test", 3 = "Open-circuit test"},
+    Name "Parameters/Test/Operation mode"}
+  shortcut_voltage = {100, VisibleIf{Operation_mode != 1 },
+    Name "Parameters/Test/Short-circuit voltage"}
+  test_phase = {1, Choices{1 = "Phase 1", 2 = "Phase 2", 3 = "Phase 3"},
+    VisibleIf{Operation_mode != 1 },
+    Name "Parameters/Test/Tested phase"}
+  power_factor = {1, Min -1, Max 1,
+    Name "Parameters/Load/Power factor"}
+  Type_load = {1, Choices{ 1 = "Resistive", 2= "Inductive", 3 = "Capacitive"},
+    Name "Parameters/Load/Load type"} 
+  magnitude_load = {1,
+    Name "Parameters/Load/Load magnitude"} 
 ];
-
+  
 Group {
   // Physical regions:
   Air = Region[{AIR_WINDOW_W1,AIR_WINDOW_W2,AIR_WINDOW_W3,AIR_WINDOW_W4, AIR_EXT}];
@@ -121,13 +135,13 @@ Function {
     // values because half coils are defined geometrically due to symmetry!
     // Means that the total number of turns will be twice these values, because we only draw half of the coils
     Ns[Coil_p1_L] = 100;
-    Ns[Coil_p1_H] = 10;
+    Ns[Coil_p1_H] = 17;
 
     Ns[Coil_p2_L] = 100;
-    Ns[Coil_p2_H] = 10; 
+    Ns[Coil_p2_H] = 17; 
     
     Ns[Coil_p3_L] = 100;
-    Ns[Coil_p3_H] = 10;
+    Ns[Coil_p3_H] = 17;
 
     // To be defined separately for each coil portion:
     Sc[Coil_p1_L_P] = SurfaceArea[];
@@ -155,7 +169,7 @@ Function {
   // Parameters and computing the iron losses in the magnetic core
   // Parameters values should be found and Checked
 
-  // Steinmetz[] = rho * k_st * (Freq^alpha) * (Norm[$1]^beta);
+  //Steinmetz[] = rho * k_st * (Freq^alpha) * (Norm[$1]^beta);
 }
 
 // We will use a circuit coupling to connect the PLUS and MINUS portions of the
@@ -189,16 +203,33 @@ Group {
   R_out_p1 = Region[10111]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_out_p1}];
 
+  C_out_p1 = Region[10112]; // arbitrary region number (not linked to the mesh)
+  Capacitance_Cir += Region[{C_out_p1}];
+  L_out_p1 = Region[10113]; // arbitrary region number (not linked to the mesh)
+  Inductance_Cir += Region[{L_out_p1}];
+  
+  R_winding_p1 = Region[10114]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_winding_p1}];
+
   // Primary side phase 2
   E_in_p2 = Region[10021]; // arbitrary region number (not linked to the mesh)
   SourceV_Cir += Region[{E_in_p2}];
 
   R_in_p2 = Region[10022]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_in_p2}];
+
   // Secondary side phase 2
   R_out_p2 = Region[10121]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_out_p2}];
   
+  C_out_p2 = Region[10122]; // arbitrary region number (not linked to the mesh)
+  Capacitance_Cir += Region[{C_out_p2}];
+  L_out_p2 = Region[10123]; // arbitrary region number (not linked to the mesh)
+  Inductance_Cir += Region[{L_out_p2}];
+
+  R_winding_p2 = Region[10124]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_winding_p2}];
+
   // Primary side phase 3
   E_in_p3 = Region[10031]; // arbitrary region number (not linked to the mesh)
   SourceV_Cir += Region[{E_in_p3}];
@@ -209,33 +240,154 @@ Group {
   R_out_p3 = Region[10131]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_out_p3}];
 
+  C_out_p3 = Region[10132]; // arbitrary region number (not linked to the mesh)
+  Capacitance_Cir += Region[{C_out_p3}];
 
-
+  L_out_p3 = Region[10133]; // arbitrary region number (not linked to the mesh)
+  Inductance_Cir += Region[{L_out_p3}];
+  R_winding_p3 = Region[10134]; // arbitrary region number (not linked to the mesh)
+  Resistance_Cir += Region[{R_winding_p3}];
 }
 
 Function {
   deg = Pi/180;
   // Input RMS voltage (half of the voltage because of symmetry; half coils are
   // defined!)
-  val_E_in_p1 = input_voltage;
-  val_E_in_p2 = input_voltage;
-  val_E_in_p3 = input_voltage;
+  If (Operation_mode == 1) // Normal operation
+    val_E_in_p1 = Input_voltage;
+    val_E_in_p2 = Input_voltage;
+    val_E_in_p3 = Input_voltage;
+  ElseIf (Operation_mode == 2) // Short-circuit test
+    If (test_phase == 1)
+      val_E_in_p1 = shortcut_voltage;
+      val_E_in_p2 = 0;
+      val_E_in_p3 = 0;
+    ElseIf (test_phase == 2)
+      val_E_in_p1 = 0;
+      val_E_in_p2 = shortcut_voltage;
+      val_E_in_p3 = 0;
+    ElseIf (test_phase == 3)
+      val_E_in_p1 = 0;
+      val_E_in_p2 = 0;
+      val_E_in_p3 = shortcut_voltage;
+    EndIf
+  ElseIf (Operation_mode == 3) // Open-circuit test
+    If (test_phase == 1)
+      val_E_in_p1 = Input_voltage;
+      val_E_in_p2 = 0;
+      val_E_in_p3 = 0;
+    ElseIf (test_phase == 2)
+      val_E_in_p1 = 0;
+      val_E_in_p2 = Input_voltage;
+      val_E_in_p3 = 0;
+    ElseIf (test_phase == 3)
+      val_E_in_p1 = 0;
+      val_E_in_p2 = 0;
+      val_E_in_p3 = Input_voltage;
+    EndIf
+  EndIf
+
+  // Phase shifts for a 3-phase system
   phase_E_in_1 = 0; // Phase in radian (from phase in degree)
   phase_E_in_2 = phase_E_in_1 +2*Pi/3; // Phase in radian (from phase in degree)
   phase_E_in_3 = phase_E_in_1 +4*Pi/3; // Phase in radian (from phase in degree)
 
   // High value for an open-circuit test; Low value for a short-circuit test;
   // any value in-between for any charge
-  Resistance[R_out_p1] = 1000;
-  Resistance[R_out_p2] = 1000;
-  Resistance[R_out_p3] = 1000;
+  If(Operation_mode == 1) // Normal operation
+    If(Type_load == 1) // purely Resistive load
+      Resistance[R_out_p1] = magnitude_load;
+      Resistance[R_out_p2] = magnitude_load;
+      Resistance[R_out_p3] = magnitude_load;
+      capacitance[C_out_p1] = 0;
+      capacitance[C_out_p2] = 0;
+      capacitance[C_out_p3] = 0;
+      Inductance[L_out_p1] = 0;
+      Inductance[L_out_p2] = 0;
+      Inductance[L_out_p3] = 0;
+    ElseIf(Type_load == 2) // Inductive load
+      Resistance[R_out_p1] = magnitude_load * power_factor;
+      Resistance[R_out_p2] = magnitude_load * power_factor;
+      Resistance[R_out_p3] = magnitude_load * power_factor;
+      capacitance[C_out_p1] = 0;
+      capacitance[C_out_p2] = 0;
+      capacitance[C_out_p3] = 0;
+      Inductance[L_out_p1] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[L_out_p2] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[L_out_p3] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+    ElseIf(type_load == 3) // Capacative load
+      If (power_factor == 0)
+        Resistance[R_out_p1] = 1e15; // very high value for purely inductive load
+        Resistance[R_out_p2] = 1e15;
+        Resistance[R_out_p3] = 1e15;
+      Else
+        Resistance[R_out_p1] = magnitude_load / power_factor;
+        Resistance[R_out_p2] = magnitude_load / power_factor;
+        Resistance[R_out_p3] = magnitude_load / power_factor;
+      EndIf
+      capacitance[C_out_p1] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
+      capacitance[C_out_p2] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
+      capacitance[C_out_p3] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
+      Inductance[L_out_p1] = 0;
+      Inductance[L_out_p2] = 0;
+      Inductance[L_out_p3] = 0;
+    EndIf
+  
 
+  ElseIf(Operation_mode == 2) // Short-circuit test
+    Resistance[R_out_p1] = 0;
+    Resistance[R_out_p2] = 0;
+    Resistance[R_out_p3] = 0;
+    capacitance[C_out_p1] = 0;
+    capacitance[C_out_p2] = 0;
+    capacitance[C_out_p3] = 0;
+    Inductance[L_out_p1] = 0;
+    Inductance[L_out_p2] = 0;
+    Inductance[L_out_p3] = 0;
+
+  ElseIf(Operation_mode == 3) // Open-circuit test
+    Resistance[R_out_p1] = 1e12; // very high value for open-circuit
+    Resistance[R_out_p2] = 1e12;
+    Resistance[R_out_p3] = 1e12;
+    capacitance[C_out_p1] =1e-12;
+    capacitance[C_out_p2] = 1e-12;
+    capacitance[C_out_p3] = 1e-12;
+    Inductance[L_out_p1] = 1e-12;
+    Inductance[L_out_p2] = 1e-12;
+    Inductance[L_out_p3] = 1e-12;
+  EndIf
+
+
+    
   // End-winding primary winding resistance for more realistic primary coil
   // model
-  Resistance[R_in_p1] = 1e-3;
-  Resistance[R_in_p2] = 1e-3;
-  Resistance[R_in_p3] = 1e-3;
+  Resistance[R_winding_p1] = 1e-3;
+  Resistance[R_winding_p2] = 1e-3;
+  Resistance[R_winding_p3] = 1e-3;
 
+  If (Operation_mode == 1) // Normal operation
+    // Small resistance to avoid singular matrix
+    Resistance[R_in_p1] = 1e-3;
+    Resistance[R_in_p2] = 1e-3;
+    Resistance[R_in_p3] = 1e-3;
+  ElseIf (Operation_mode == 2 || Operation_mode == 3)
+    If(test_phase == 1)
+      // Negligible resistance for non-tested phases
+      Resistance[R_in_p1] = 1e-3;
+      Resistance[R_in_p2] = 1e12;
+      Resistance[R_in_p3] = 1e12;
+    ElseIf(test_phase == 2)
+      // Negligible resistance for non-tested phases
+      Resistance[R_in_p1] = 1e12;
+      Resistance[R_in_p2] = 1e-3;
+      Resistance[R_in_p3] = 1e12;
+    ElseIf(test_phase == 3)
+      // Negligible resistance for non-tested phases
+      Resistance[R_in_p1] = 1e12;
+      Resistance[R_in_p2] = 1e12;
+      Resistance[R_in_p3] = 1e-3;
+    EndIf
+  EndIf
 
 }
 
@@ -282,52 +434,50 @@ Constraint {
   }
   { Name ElectricalCircuit ; Type Network ;
     // Assistent zegt per kant en per zijde maken
-    Case Circuit_High_side {
-      // PLUS and MINUS coil portions to be connected in series, together with
-      // E_in; an additional resistor is defined in series to represent the
-      // Coil end-winding, which is not considered in the 2D model.
-
-      // Y-connection of the primary winding
-
+    Case Circuit_1 {
       { Region E_in_p1; Branch{1,2};}
       { Region R_in_p1; Branch{2,3};}
       { Region Coil_p1_H_P; Branch{3,4}; }
       { Region Coil_p1_H_M; Branch{4,1}; }
-
       
-      { Region E_in_p2; Branch{1,5}; }
-      { Region R_in_p2; Branch{5,6}; }
-
+      { Region E_in_p2; Branch{1,5};  }
+      { Region R_in_p2; Branch{5,6};  }
       { Region Coil_p2_H_P; Branch{6,7}; }
       { Region Coil_p2_H_M; Branch{7,1}; }
       
-      { Region E_in_p3; Branch{1,8}; }
-      { Region R_in_p3; Branch{8,9}; }
-
+      { Region E_in_p3; Branch{1,8};  }
+      { Region R_in_p3; Branch{8,9};  }
       { Region Coil_p3_H_P; Branch{9,10}; }
       { Region Coil_p3_H_M; Branch{10,1}; }
     }
+    Case Circuit_2 {
 
-    Case Circuit_low_side {
-      // PLUS and MINUS coil portions to be connected in series, together with
-      // E_in; an additional resistor is defined in series to represent the
-      // Coil end-winding, which is not considered in the 2D model.
-      // Y-connection of the secondary winding
-      { Region R_out_p1; Branch{1,2}; }
+      { Region R_out_p1; Branch {1,2}; }
+      { Region L_out_p1; Branch {2,3}; }
+      { Region C_out_p1; Branch {3,1}; }
+      { Region R_winding_p1; Branch {3,4}; }
 
-      { Region Coil_p1_L_P; Branch{2,3}; }
-      { Region Coil_p1_L_M; Branch{3,1}; }
+      { Region Coil_p1_L_P; Branch {4,5} ; }
+      { Region Coil_p1_L_M; Branch {5,6} ; }
 
-      { Region R_out_p2; Branch{1,4}; }
-      { Region Coil_p2_L_P; Branch{4,5}; }
-      { Region Coil_p2_L_M; Branch{5,1}; }
+      { Region R_out_p2; Branch {1,10}; }
+      { Region L_out_p2; Branch {10,11}; }
+      { Region C_out_p2; Branch {11,1}; }
+      { Region R_winding_p2; Branch {11,6}; }
 
-      
-      { Region R_out_p3; Branch{1,6}; }
-      { Region Coil_p3_L_P; Branch{6,7}; }
-      { Region Coil_p3_L_M; Branch{7,1}; }
-    }
+      { Region Coil_p2_L_P; Branch {6,7} ; }
+      { Region Coil_p2_L_M; Branch {7,8} ; }
+
+      { Region R_out_p3; Branch {1,12}; }
+      { Region L_out_p3; Branch {12,13}; }
+      { Region C_out_p3; Branch {13,1}; }
+      { Region R_winding_p3; Branch {13,8}; }
+
+      { Region Coil_p3_L_P; Branch {8,9} ; }
+      { Region Coil_p3_L_M; Branch {9,4} ; }
+
   } 
+}
 }
 
 Include "Lib_Magnetodynamics2D_av_Cir.pro";
@@ -338,6 +488,7 @@ PostOperation {
       Print[ j, OnElementsOf Region[{Vol_C_Mag, Vol_S_Mag}], Format Gmsh, File "j.pos" ];
       Print[ b, OnElementsOf Vol_Mag, Format Gmsh, File "b.pos" ];
       Print[ az, OnElementsOf Vol_Mag, Format Gmsh, File "az.pos" ];
+      
       If (Flag_FrequencyDomain)
         // In text file UI.txt: voltage and current of the primary coil (from
         // E_in) (real and imaginary parts!)
@@ -355,18 +506,22 @@ PostOperation {
 
         // In text file UI.txt: voltage and current of the secondary coil (from
         // R_out)
-        Echo[ "R_out_p1", Format Table, File > "UI.txt" ];
-        Print[ U, OnRegion R_out_p1, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_out_p1, Format FrequencyTable, File > "UI.txt"];
+        Echo[ "Load_phase_1", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion C_out_p1, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion R_winding_p1, Format FrequencyTable, File > "UI.txt"];
 
-        Echo[ "R_out_p2", Format Table, File > "UI.txt" ];
-        Print[ U, OnRegion R_out_p2, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_out_p2, Format FrequencyTable, File > "UI.txt"];
+        Echo[ "load_phase_2", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion C_out_p2, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion R_winding_p1, Format FrequencyTable, File > "UI.txt"];
 
-        Echo[ "R_out_p3", Format Table, File > "UI.txt" ];
-        Print[ U, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt"];
+        Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
+        Print[ U, OnRegion C_out_p3, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion R_winding_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
+
+      //Print[JouleLosses[Coils], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Winding Losses"], Color "LightGreen" ];
+      //Print[CoreLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Hysteresis Losses"], Color "LightBlue" ];
+      //Print[Pec_Lam[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightBlue" ];
     }
   }
 }

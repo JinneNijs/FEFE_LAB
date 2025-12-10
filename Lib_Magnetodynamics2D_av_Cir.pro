@@ -512,16 +512,18 @@ PostProcessing {
             In Vol_C_Mag; Jacobian Vol; Integration Gauss_v; }
           Integral { [ CoefPower * 1./sigma[]*SquNorm[js0[]] ];
             In Vol_S0_Mag; Jacobian Vol; Integration Gauss_v; }
-	        Integral { [ CoefPower * 1./sigma[]*SquNorm[(js0[]*Vector[0,0,1])*{ir}] ]; // Values obtained are per meter along the z direction
+	        Integral { [ thickness_Core * CoefPower * 1./sigma[]*SquNorm[(js0[]*Vector[0,0,1])*{ir}] ]; // Values obtained are per meter along the z direction
             In Vol_S_Mag; Jacobian Vol; Integration Gauss_v; }
           Integral { [ CoefPower * Ysur[]*SquNorm[Dt[{a}]+{ur}/CoefGeos[]] ];
             In Sur_Imped_Mag; Jacobian Sur; Integration Gauss_v; }
 	    }}
 
-      // { Name IronLosses ; Value {
-      //   Integral { [ Steinmetz[{d a}] * thickness_Core];
-      //     In Vol_Mag; Jacobian Vol; Integration Gauss_v; }
-      // }}
+      { Name IronLosses ; Value {
+          Integral { [ Steinmetz[{d a}] * thickness_Core * core_density];
+            In Vol_Mag; Jacobian Vol; Integration Gauss_v; }
+      }}
+
+      
 
       { Name U; Value {
           Term { [ {U} ]; In Vol_C_Mag; }

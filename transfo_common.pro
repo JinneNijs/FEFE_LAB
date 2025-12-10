@@ -1,8 +1,11 @@
-
+core_density = 7500; // kg/m3
+x = 2; // Steinmets factor core losses
+alpha = 1;
+k_h = 0.01; // Material constant core losses
 // Dimensions
 
 width_Core = 1.;
-height_Core = 2.;
+height_Core = 1.;
 
 // Thickness along Oz (to be considered for a correct definition of voltage)
 thickness_Core = 1.;
