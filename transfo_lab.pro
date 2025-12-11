@@ -47,7 +47,7 @@ DefineConstant[
     Name "Parameters/Load/Power factor"}
   Type_load = {1, Choices{ 1 = "Resistive", 2= "Inductive", 3 = "Capacitive"},
     Name "Parameters/Load/Load type"} 
-  magnitude_load = {1,
+  magnitude_load = {0,216,
     Name "Parameters/Load/Load magnitude"} 
 ];
   
@@ -101,14 +101,15 @@ Group {
 }
 
 Function {
+  // Magnetic parameters
   mu0 = 4e-7*Pi;
   mu[Air] = 1 * mu0;
   mu[Core] = mur_Core * mu0;
   mu[Coils] = 1 * mu0;
   nu[] = 1 / mu[];
 
-  sigma[Coils] = 1e7;
-  sigma[Core] = 1e4;
+  sigma[Coils] = 5.96e7; // copper conductivity in S/m
+  sigma[Core] = 1e4; // silicon steel conductivity in S/m
 
   // To be defined separately for each coil portion, to fix the convention of
   // positive current (1: along Oz, -1: along -Oz)
@@ -454,7 +455,8 @@ Constraint {
       { Region Coil_p3_H_M; Branch{10,1}; }
     }
     Case Circuit_2 {
-
+      // Secondary side in Y connection
+      /*
       { Region R_out_p1; Branch {1,2}; }
       { Region L_out_p1; Branch {2,3}; }
       { Region C_out_p1; Branch {3,1}; }
@@ -478,8 +480,31 @@ Constraint {
 
       { Region Coil_p3_L_P; Branch {8,9} ; }
       { Region Coil_p3_L_M; Branch {9,4} ; }
+*/
+      // Secondary side in Delta connection
+      { Region R_out_p1; Branch {1,2}; }
+      { Region L_out_p1; Branch {2,3}; }
+      { Region C_out_p1; Branch {3,1}; }
+      { Region R_winding_p1; Branch {3,4}; }
 
-  } 
+      { Region Coil_p1_L_P; Branch {4,5} ; }
+      { Region Coil_p1_L_M; Branch {5,6} ; }
+
+      { Region R_out_p2; Branch {1,10}; }
+      { Region L_out_p2; Branch {10,11}; }
+      { Region C_out_p2; Branch {11,1}; }
+      { Region R_winding_p2; Branch {11,6}; }
+
+      { Region Coil_p2_L_P; Branch {6,7} ; }
+      { Region Coil_p2_L_M; Branch {7,8} ; }
+
+      { Region R_out_p3; Branch {1,12}; }
+      { Region L_out_p3; Branch {12,13}; }
+      { Region C_out_p3; Branch {13,1}; }
+      { Region R_winding_p3; Branch {13,8}; }
+
+      { Region Coil_p3_L_P; Branch {8,9} ; }
+      { Region Coil_p3_L_M; Branch {9,4} ;} 
 }
 }
 
@@ -523,8 +548,8 @@ PostOperation {
       EndIf
 
       //Print[JouleLosses[Coils], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Winding Losses"], Color "LightGreen" ];
-      //Print[CoreLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Hysteresis Losses"], Color "LightBlue" ];
-      //Print[Pec_Lam[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightBlue" ];
+      //Print[IronLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Hysteresis Losses"], Color "LightBlue" ];
+      //Print[EddyLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightYellow" ];
     }
   }
 }

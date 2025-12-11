@@ -1,7 +1,6 @@
-core_density = 7500; // kg/m3
-x = 2; // Steinmets factor core losses
+//Steinmetz parameters for silicon steel
+rho = 7500; // kg/m3
 alpha = 1;
-k_h = 0.01; // Material constant core losses
 // Dimensions
 
 width_Core = 1.;
