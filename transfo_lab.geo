@@ -368,19 +368,19 @@ l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_2_7, p_Coil_p1_L_pos_int_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_int_0, p_Coil_p1_L_pos_int_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_int_1, p_Coil_p1_L_pos_ext_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_ext_1, p_Coil_p1_L_pos_ext_0};
-l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_int_0, p_Coil_p1_L_pos_ext_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_L_pos_ext_0, p_Coil_p1_H_pos_int_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_int_0, p_Coil_p1_H_pos_int_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_int_1, p_Coil_p1_H_pos_ext_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_ext_1, p_Coil_p1_H_pos_ext_0};
-l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_ext_0, p_Coil_p1_H_pos_ext_0 };
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p1_H_pos_ext_0, p_Coil_p2_H_neg_ext_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_ext_0, p_Coil_p2_H_neg_ext_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_ext_1, p_Coil_p2_H_neg_int_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_int_1, p_Coil_p2_H_neg_int_0};
-l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_ext_0, p_Coil_p2_H_neg_int_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_H_neg_int_0, p_Coil_p2_L_neg_ext_0};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_ext_0, p_Coil_p2_L_neg_ext_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_ext_1, p_Coil_p2_L_neg_int_1};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_int_1, p_Coil_p2_L_neg_int_0};
-l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_3_9, p_Coil_p2_L_neg_int_0};
+l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Coil_p2_L_neg_int_0, p_Leg_3_9};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_3_9, p_Leg_3_10};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_3_10, p_Leg_2_8};
 l_Air_Window_Y0_w2[] += newl; Line(newl) = {p_Leg_2_8, p_Leg_2_7};
@@ -487,22 +487,4 @@ Hide "*";
 //+
 Show {
   Point{1}; Point{2}; Point{3}; Point{4}; Point{5}; Point{6}; Point{7}; Point{8}; Point{9}; Point{10}; Point{11}; Point{12}; Point{13}; Point{14}; Point{15}; Point{16}; Point{17}; Point{18}; Point{19}; Point{20}; Curve{1}; Curve{2}; Curve{3}; Curve{4}; Curve{5}; Curve{6}; Curve{7}; Curve{8}; Curve{9}; Curve{10}; Curve{11}; Curve{12}; Curve{13}; Curve{14}; Curve{15}; Curve{16}; Curve{17}; Curve{18}; Curve{19}; Curve{20}; Surface{22}; 
-}
-//+
-Hide "*";
-//+
-Show {
-  Point{14}; Point{16}; Point{17}; Point{19}; Point{53}; Point{54}; Point{55}; Point{56}; Point{57}; Point{58}; Point{59}; Point{60}; Curve{10}; Curve{11}; Curve{12}; Curve{1444}; Curve{1445}; Curve{1446}; Curve{1502}; Curve{1503}; Curve{1504}; Curve{1569}; Curve{1570}; Curve{1571}; Surface{1573}; 
-}
-//+
-Hide "*";
-//+
-Show {
-  Point{14}; Point{16}; Point{17}; Point{19}; Point{53}; Point{54}; Point{55}; Point{56}; Point{57}; Point{58}; Point{59}; Point{60}; Curve{10}; Curve{11}; Curve{12}; Curve{1444}; Curve{1445}; Curve{1446}; Curve{1502}; Curve{1503}; Curve{1504}; Curve{1569}; Curve{1570}; Curve{1571}; Surface{1573}; 
-}
-//+
-Show "*";
-//+
-Hide {
-  Curve{1529}; Curve{1533}; Curve{1537}; Curve{1541}; 
 }

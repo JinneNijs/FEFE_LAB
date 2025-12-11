@@ -1,8 +1,15 @@
 //Steinmetz parameters for silicon steel
+<<<<<<< HEAD
 core_density = 7500; // kg/m3
 k_h = 0.002; // Material constant core losses
 rho = 7500; // kg/m3
 alpha = 1;
+=======
+rho = 7650; // kg/m3
+alpha = 1; // Single frequency exponent
+beta = 2.1;
+k_st = 0.025;
+>>>>>>> 2f3361088b6aca6c2cdc0755b2f2a0212c89286e
 // Dimensions
 
 width_Core = 1;
@@ -14,8 +21,13 @@ thickness_Core = 1.;
 width_Window = 0.3;
 height_Window = 0.5;
 
+<<<<<<< HEAD
 width_Core_Leg = 0.6;
 width_Core_Top = 0.37;
+=======
+width_Core_Leg = (width_Core-width_Window)/2.;
+width_Core_outer_Leg = width_Core_Leg/2.;
+>>>>>>> 2f3361088b6aca6c2cdc0755b2f2a0212c89286e
 
 width_Coil_1 = 0.10;
 height_Coil_1 = 0.25;
