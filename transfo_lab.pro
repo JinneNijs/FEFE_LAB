@@ -47,7 +47,7 @@ DefineConstant[
     Name "Parameters/Load/Power factor"}
   Type_load = {1, Choices{ 1 = "Resistive", 2= "Inductive", 3 = "Capacitive"},
     Name "Parameters/Load/Load type"} 
-  magnitude_load = {0,216,
+  magnitude_load = {0.216,
     Name "Parameters/Load/Load magnitude"} 
 ];
   
@@ -172,7 +172,7 @@ Function {
   rho = core_density; // kg/m3 // niet per se juist
   k_st = k_h; // Material constant core losses // niet per se juist
   alpha = alpha; // niet per se juist
-  beta = x; // Steinmets factor core losses // niet per se juist
+  beta = 1; // Steinmets factor core losses // niet per se juist
   Steinmetz[] = rho * k_st * (Freq^alpha) * (Norm[$1]^beta);
 }
 
@@ -505,6 +505,7 @@ Constraint {
 
       { Region Coil_p3_L_P; Branch {8,9} ; }
       { Region Coil_p3_L_M; Branch {9,4} ;} 
+}
 }
 }
 

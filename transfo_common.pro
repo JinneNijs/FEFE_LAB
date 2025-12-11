@@ -1,4 +1,6 @@
 //Steinmetz parameters for silicon steel
+core_density = 7500; // kg/m3
+k_h = 0.002; // Material constant core losses
 rho = 7500; // kg/m3
 alpha = 1;
 // Dimensions
@@ -25,29 +27,29 @@ gap_Core_Coil_2 = 0.05;
 // afmetingen primaire en secundaire spoel in laag en hoog voltage van 1ste been
 width_Coil_p1_L = 0.10;
 height_Coil_p1_L = 0.25;
-gap_Core_Coil_p1_L = 0.05;
+gap_Core_Coil_p1_L = 0.005;
 
 width_Coil_p1_H = 0.10;
 height_Coil_p1_H = 0.25;
-gap_Core_Coil_p1_H = 0.05;
+gap_Core_Coil_p1_H = 0.005;
 
 // afmetingen primaire en secundaire spoel in laag en hoog voltage van 2de been
 width_Coil_p2_L = 0.10;
 height_Coil_p2_L = 0.25;
-gap_Core_Coil_p2_L = 0.05;
+gap_Core_Coil_p2_L = 0.005;
 
 width_Coil_p2_H = 0.10;
 height_Coil_p2_H = 0.25;
-gap_Coil_p2_L_Coil_p2_H = 0.05;
+gap_Coil_p2_L_Coil_p2_H = 0.005;
 
 // afmetingen primaire en secundaire spoel in laag en hoog voltage van 3de been
 width_Coil_p3_L = 0.10;
 height_Coil_p3_L = 0.25;
-gap_Core_Coil_p3_L = 0.05;
+gap_Core_Coil_p3_L = 0.005;
 
 width_Coil_p3_H = 0.10;
 height_Coil_p3_H = 0.25;
-gap_Coil_p3_L_Coil_p3_H = 0.05;
+gap_Coil_p3_L_Coil_p3_H = 0.005;
 
 // Gaps around the core (for air box)
 gap_Core_Box_X = 1.;
