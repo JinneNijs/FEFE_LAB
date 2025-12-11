@@ -168,8 +168,11 @@ Function {
 
   // Parameters and computing the iron losses in the magnetic core
   // Parameters values should be found and Checked
-
-  //Steinmetz[] = rho * k_st * (Freq^alpha) * (Norm[$1]^beta);
+  rho = core_density; // kg/m3 // niet per se juist
+  k_st = k_h; // Material constant core losses // niet per se juist
+  alpha = alpha; // niet per se juist
+  beta = x; // Steinmets factor core losses // niet per se juist
+  Steinmetz[] = rho * k_st * (Freq^alpha) * (Norm[$1]^beta);
 }
 
 // We will use a circuit coupling to connect the PLUS and MINUS portions of the
