@@ -47,7 +47,7 @@ DefineConstant[
     Name "Parameters/Load/Power factor"}
   Type_load = {1, Choices{ 1 = "Resistive", 2= "Inductive", 3 = "Capacitive"},
     Name "Parameters/Load/Load type"} 
-  magnitude_load = {1,
+  magnitude_load = {0,216,
     Name "Parameters/Load/Load magnitude"} 
 ];
   
@@ -101,14 +101,15 @@ Group {
 }
 
 Function {
+  // Magnetic parameters
   mu0 = 4e-7*Pi;
   mu[Air] = 1 * mu0;
   mu[Core] = mur_Core * mu0;
   mu[Coils] = 1 * mu0;
   nu[] = 1 / mu[];
 
-  sigma[Coils] = 1e7;
-  sigma[Core] = 1e4;
+  sigma[Coils] = 5.96e7; // copper conductivity in S/m
+  sigma[Core] = 1e4; // silicon steel conductivity in S/m
 
   // To be defined separately for each coil portion, to fix the convention of
   // positive current (1: along Oz, -1: along -Oz)

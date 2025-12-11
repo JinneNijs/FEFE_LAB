@@ -523,11 +523,11 @@ PostProcessing {
             In Vol_Mag; Jacobian Vol; Integration Gauss_v; }
       }}
 
-      { Name EddyLosses ; Value { // Eddy current losses in laminations (Lz is the axial lenth)
-        Integral { [ thickness_Core*sigma[]*thickness_sheet^2/12*SquNorm[Dt[{d a}]]];
-          In Core; Jacobian Vol ; Integration Gauss_v ; } 
-        } 
-      } 
+      //{ Name EddyLosses ; Value { // Eddy current losses in laminations (Lz is the axial lenth)
+       // Integral { [ thickness_Core*sigma[]*thickness_sheet^2/12*SquNorm[Dt[{d a}]]];
+         // In Core; Jacobian Vol ; Integration Gauss_v ; } 
+        //} 
+      //  } 
 
       { Name U; Value {
           Term { [ {U} ]; In Vol_C_Mag; }
