@@ -1,6 +1,6 @@
 { "onelab":{
   "creator":"Gmsh",
-  "date":"Thu Dec 11 15:40:58 2025",
+  "date":"Thu Dec 11 16:58:50 2025",
   "version":"1.3",
   "parameters":[
     { "type":"number", "name":"0Metamodel/Loop", "changedValue":31, "visible":false, "readOnly":false, "values":[ 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
@@ -11,7 +11,7 @@
     { "type":"string", "name":"GetDP/File extension", "changedValue":31, "visible":false, "readOnly":false, "attributes":{ "Persistent":"1" }, "clients":{ "GetDP":0 }, "values":[ ".pro" ] , "kind":"generic" },
     { "type":"number", "name":"GetDP/Guess model name", "changedValue":31, "visible":false, "readOnly":false, "attributes":{ "Persistent":"1" }, "clients":{ "GetDP":0 }, "values":[ 1 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
     { "type":"string", "name":"GetDP/Model name", "changedValue":3, "visible":true, "readOnly":false, "attributes":{ "Persistent":"1" }, "clients":{ "GetDP":0, "Gmsh":0 }, "values":[ "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\transfo_lab.pro" ] , "kind":"file" },
-    { "type":"number", "name":"GetDP/Progress", "label":"GetDP Post-processing (Compute)", "changedValue":31, "visible":false, "readOnly":true, "clients":{ "GetDP":0 }, "values":[ 0 ], "min":0, "max":18382, "step":0, "index":-1 },
+    { "type":"number", "name":"GetDP/Progress", "label":"GetDP Post-processing (Compute)", "changedValue":31, "visible":false, "readOnly":true, "clients":{ "GetDP":0 }, "values":[ 0 ], "min":0, "max":5782, "step":0, "index":-1 },
     { "type":"number", "name":"GetDP/Use command line", "changedValue":31, "visible":false, "readOnly":false, "attributes":{ "Persistent":"1" }, "clients":{ "GetDP":0 }, "values":[ 1 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
     { "type":"string", "name":"GetDP/{Input files", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "AutoCheck":"0" }, "clients":{ "GetDP":0 }, "values":[ "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\Lib_Magnetodynamics2D_av_Cir.pro" ] , "kind":"file", "choices":[ "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\transfo_lab.pro", "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\transfo_common.pro", "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\Lib_Magnetodynamics2D_av_Cir.pro" ] },
     { "type":"string", "name":"GetDP/{Output files", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "AutoCheck":"0" }, "clients":{ "GetDP":0 }, "values":[ "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\UI.txt" ] , "kind":"file", "choices":[ "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\j.pos", "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\b.pos", "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\az.pos", "C:\Users\Jinne\Documents\Jinne\FEFE\FEFE_LAB\UI.txt" ] },

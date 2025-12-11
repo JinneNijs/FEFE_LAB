@@ -5,51 +5,52 @@ rho = 7500; // kg/m3
 alpha = 1;
 // Dimensions
 
-width_Core = 1.;
+width_Core = 1;
 height_Core = 1.;
 
 // Thickness along Oz (to be considered for a correct definition of voltage)
 thickness_Core = 1.;
 
-width_Window = 0.5;
+width_Window = 0.3;
 height_Window = 0.5;
 
-width_Core_Leg = (width_Core-width_Window)/2.;
+width_Core_Leg = 0.6;
+width_Core_Top = 0.37;
 
 width_Coil_1 = 0.10;
 height_Coil_1 = 0.25;
-gap_Core_Coil_1 = 0.05;
+gap_Core_Coil_1 = 0.03;
 
 width_Coil_2 = 0.10;
 height_Coil_2 = 0.25;
-gap_Core_Coil_2 = 0.05;
+gap_Core_Coil_2 = 0.03;
 
 // afmetingen primaire en secundaire spoel in laag en hoog voltage van 1ste been
 width_Coil_p1_L = 0.10;
 height_Coil_p1_L = 0.25;
-gap_Core_Coil_p1_L = 0.005;
+gap_Core_Coil_p1_L = 0.03;
 
 width_Coil_p1_H = 0.10;
 height_Coil_p1_H = 0.25;
-gap_Core_Coil_p1_H = 0.005;
+gap_Core_Coil_p1_H = 0.03;
 
 // afmetingen primaire en secundaire spoel in laag en hoog voltage van 2de been
 width_Coil_p2_L = 0.10;
 height_Coil_p2_L = 0.25;
-gap_Core_Coil_p2_L = 0.005;
+gap_Core_Coil_p2_L = 0.03;
 
 width_Coil_p2_H = 0.10;
 height_Coil_p2_H = 0.25;
-gap_Coil_p2_L_Coil_p2_H = 0.005;
+gap_Coil_p2_L_Coil_p2_H = 0.03;
 
 // afmetingen primaire en secundaire spoel in laag en hoog voltage van 3de been
 width_Coil_p3_L = 0.10;
 height_Coil_p3_L = 0.25;
-gap_Core_Coil_p3_L = 0.005;
+gap_Core_Coil_p3_L = 0.03;
 
 width_Coil_p3_H = 0.10;
 height_Coil_p3_H = 0.25;
-gap_Coil_p3_L_Coil_p3_H = 0.005;
+gap_Coil_p3_L_Coil_p3_H = 0.03;
 
 // Gaps around the core (for air box)
 gap_Core_Box_X = 1.;
