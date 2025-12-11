@@ -1,10 +1,10 @@
 Include "transfo_common.pro";
 // meeste linkse been
-p_Leg_1_1=newp; Point(newp) = {-width_Core/2-2*width_Core_Leg-4*width_Window,0,0,c_Core};
-p_Leg_1_3=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-4*width_Window,0,0,c_Core};
+p_Leg_1_1=newp; Point(newp) = {-width_Core/2-2*width_Core_outer_Leg-4*width_Window,0,0,c_Core};
+p_Leg_1_3=newp; Point(newp) = {-width_Core/2-1*width_Core_outer_Leg-4*width_Window,0,0,c_Core};
 
-p_Leg_1_2=newp; Point(newp) = {-width_Core/2-2*width_Core_Leg-4*width_Window,height_Core/2,0,c_Core};
-p_Leg_1_4=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-4*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
+p_Leg_1_2=newp; Point(newp) = {-width_Core/2-2*width_Cor_outer_Leg-4*width_Window,height_Core/2,0,c_Core};
+p_Leg_1_4=newp; Point(newp) = {-width_Core/2-1*width_Core_outer_Leg-4*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 
  // tweede been van links
 p_Leg_2_5=newp; Point(newp) = {-width_Core/2-1*width_Core_Leg-2*width_Window,0,0,c_Core};
@@ -28,12 +28,12 @@ p_Leg_4_14=newp; Point(newp) = {width_Core/2+2*width_Window,height_Core/2-width_
 p_Leg_4_16=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+2*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 
 // meest rechtse been
-p_Leg_5_17=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+4*width_Window,0,0,c_Core};
-p_Leg_5_19=newp; Point(newp) = {width_Core/2+2*width_Core_Leg+4*width_Window,0,0,c_Core};
+p_Leg_5_17=newp; Point(newp) = {width_Core/2+1*width_Core_outer_Leg+4*width_Window,0,0,c_Core};
+p_Leg_5_19=newp; Point(newp) = {width_Core/2+2*width_Core_outer_Leg+4*width_Window,0,0,c_Core};
 
-p_Leg_5_18=newp; Point(newp) = {width_Core/2+1*width_Core_Leg+4*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
+p_Leg_5_18=newp; Point(newp) = {width_Core/2+1*width_Core_outer_Leg+4*width_Window,height_Core/2-width_Core_Leg,0,c_Core};
 
-p_Leg_5_20=newp; Point(newp) = {width_Core/2+2*width_Core_Leg+4*width_Window,height_Core/2,0,c_Core};
+p_Leg_5_20=newp; Point(newp) = {width_Core/2+2*width_Core_outer_Leg+4*width_Window,height_Core/2,0,c_Core};
 
 l_Core_In_1[]={};
 

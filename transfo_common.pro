@@ -1,6 +1,8 @@
 //Steinmetz parameters for silicon steel
-rho = 7500; // kg/m3
-alpha = 1;
+rho = 7650; // kg/m3
+alpha = 1; // Single frequency exponent
+beta = 2.1;
+k_st = 0.025;
 // Dimensions
 
 width_Core = 1.;
@@ -13,6 +15,7 @@ width_Window = 0.5;
 height_Window = 0.5;
 
 width_Core_Leg = (width_Core-width_Window)/2.;
+width_Core_outer_Leg = width_Core_Leg/2.;
 
 width_Coil_1 = 0.10;
 height_Coil_1 = 0.25;
