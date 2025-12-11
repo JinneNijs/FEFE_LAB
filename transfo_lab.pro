@@ -169,10 +169,7 @@ Function {
 
   // Parameters and computing the iron losses in the magnetic core
   // Parameters values should be found and Checked
-  rho = core_density; // kg/m3 // niet per se juist
-  k_st = k_h; // Material constant core losses // niet per se juist
-  alpha = alpha; // niet per se juist
-  beta = 1; // Steinmets factor core losses // niet per se juist
+
   Steinmetz[] = rho * k_st * (Freq^alpha) * (Norm[$1]^beta);
 }
 
@@ -319,7 +316,7 @@ Function {
       Inductance[L_out_p1] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
       Inductance[L_out_p2] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
       Inductance[L_out_p3] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
-    ElseIf(type_load == 3) // Capacative load
+    ElseIf(Type_load == 3) // Capacative load
       If (power_factor == 0)
         Resistance[R_out_p1] = 1e15; // very high value for purely inductive load
         Resistance[R_out_p2] = 1e15;
@@ -482,29 +479,29 @@ Constraint {
       { Region Coil_p3_L_M; Branch {9,4} ; }
 */
       // Secondary side in Delta connection
-      { Region R_out_p1; Branch {1,2}; }
-      { Region L_out_p1; Branch {2,3}; }
-      { Region C_out_p1; Branch {3,1}; }
-      { Region R_winding_p1; Branch {3,4}; }
+      { Region R_out_p1; Branch {11,12}; }
+      { Region L_out_p1; Branch {12,13}; }
+      { Region C_out_p1; Branch {13,11}; }
+      { Region R_winding_p1; Branch {13,14}; }
 
-      { Region Coil_p1_L_P; Branch {4,5} ; }
-      { Region Coil_p1_L_M; Branch {5,6} ; }
+      { Region Coil_p1_L_P; Branch {14,15} ; }
+      { Region Coil_p1_L_M; Branch {15,16} ; }
 
-      { Region R_out_p2; Branch {1,10}; }
-      { Region L_out_p2; Branch {10,11}; }
-      { Region C_out_p2; Branch {11,1}; }
-      { Region R_winding_p2; Branch {11,6}; }
+      { Region R_out_p2; Branch {11,20}; }
+      { Region L_out_p2; Branch {20,21}; }
+      { Region C_out_p2; Branch {21,11}; }
+      { Region R_winding_p2; Branch {21,16}; }
 
-      { Region Coil_p2_L_P; Branch {6,7} ; }
-      { Region Coil_p2_L_M; Branch {7,8} ; }
+      { Region Coil_p2_L_P; Branch {16,17} ; }
+      { Region Coil_p2_L_M; Branch {17,18} ; }
 
-      { Region R_out_p3; Branch {1,12}; }
-      { Region L_out_p3; Branch {12,13}; }
-      { Region C_out_p3; Branch {13,1}; }
-      { Region R_winding_p3; Branch {13,8}; }
+      { Region R_out_p3; Branch {11,22}; }
+      { Region L_out_p3; Branch {22,23}; }
+      { Region C_out_p3; Branch {23,11}; }
+      { Region R_winding_p3; Branch {23,18}; }
 
-      { Region Coil_p3_L_P; Branch {8,9} ; }
-      { Region Coil_p3_L_M; Branch {9,4} ;} 
+      { Region Coil_p3_L_P; Branch {18,19} ; }
+      { Region Coil_p3_L_M; Branch {19,14} ;} 
 }
 }
 }
@@ -541,7 +538,7 @@ PostOperation {
 
         Echo[ "load_phase_2", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion C_out_p2, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_winding_p1, Format FrequencyTable, File > "UI.txt"];
+        Print[ I, OnRegion R_winding_p2, Format FrequencyTable, File > "UI.txt"];
 
         Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion C_out_p3, Format FrequencyTable, File > "UI.txt" ];
