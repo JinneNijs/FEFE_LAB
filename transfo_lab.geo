@@ -428,7 +428,7 @@ l_Air_Ext[] += newl; Line(newl) = {p_Air_Ext_R_1, p_Air_Ext_R_0};
 l_Air_Ext[] += newl; Line(newl) = {p_Air_Ext_R_0, p_Air_Ext_L_0};
 
 ll_Air_Ext = newll; Curve Loop(newll) = {l_Air_Ext[]};
-s_Air_Ext = news; Plane Surface(news) = {ll_Air_Ext,ll_Core_In_1,ll_Core_In_2,ll_Core_In_3,ll_Core_In_4,ll_Core_Out[]};
+s_Air_Ext = news; Plane Surface(news) = {ll_Air_Ext,ll_Core_Out};
 
 Physical Surface("AIR_EXT", AIR_EXT) = {s_Air_Ext};
 Physical Curve("SUR_AIR_EXT", SUR_AIR_EXT) = {l_Air_Ext[]};
