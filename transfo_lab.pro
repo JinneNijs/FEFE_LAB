@@ -23,7 +23,7 @@ DefineConstant[
 
   // 1: massive conductors; 2: stranded conductors (coils)
   ConductorType = {2, Choices{2 = "Massive", 2 = "Coil"}, Highlight "Blue",
-    Name "Parameters/01Conductor type"}
+    Name "Parameters/Coils/01Conductor type"}
     
     // Frequency in Hz
   Freq = {50, Min 0, Max 1e3, Step 1,
@@ -49,6 +49,8 @@ DefineConstant[
     Name "Parameters/Load/Load type"} 
   magnitude_load = {0.846,
     Name "Parameters/Load/Load magnitude"} 
+  winding_ratio = {1,
+    Name "Parameters/Coils/Number of 17 turns per high-side coil"}
 ];
   
 Group {
@@ -135,14 +137,15 @@ Function {
     // Number of turns in the coils (same for PLUS and MINUS portions) - half
     // values because half coils are defined geometrically due to symmetry!
     // Means that the total number of turns will be twice these values, because we only draw half of the coils
-    Ns[Coil_p1_L] = 100;
-    Ns[Coil_p1_H] = 17;
-
-    Ns[Coil_p2_L] = 100;
-    Ns[Coil_p2_H] = 17; 
     
-    Ns[Coil_p3_L] = 100;
-    Ns[Coil_p3_H] = 17;
+    Ns[Coil_p1_L] = 17*winding_ratio;
+    Ns[Coil_p1_H] = 100*winding_ratio;
+
+    Ns[Coil_p2_L] = 17*winding_ratio;
+    Ns[Coil_p2_H] = 100*winding_ratio; 
+    
+    Ns[Coil_p3_L] = 17*winding_ratio;
+    Ns[Coil_p3_H] = 100*winding_ratio;
 
     // To be defined separately for each coil portion:
     Sc[Coil_p1_L_P] = SurfaceArea[];

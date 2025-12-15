@@ -6,7 +6,6 @@ Include "transfo_common.pro";
 
 // Parameter voor de afronding (bijv. 15% van de kleinste raambreedte)
 // Pas dit getal aan om de hoeken ronder of scherper te maken
-r_fillet = width_Window * 0.15; 
 
 // ------------------------------------------------------------------
 // PUNTEN DEFINITIE (Exact zoals jouw originele code)
