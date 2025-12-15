@@ -13,10 +13,10 @@ height_Core = 1.;
 thickness_Core = 1.;
 sheets = 10;
 thickness_sheet = thickness_Core/sheets;
-width_Window = 0.5;
+width_Window = 0.3;
 width_Outer_Window=width_Window;
 //width_Outer_Window=width_Window*0.5- gap_Core_Coil;
-height_Window = 0.5;
+height_Window = 0.4;
 
 width_Core_Leg = (width_Core-width_Window)/2.;
 height_Core_Leg = (height_Core-height_Window)/2.;
@@ -24,7 +24,7 @@ r_fillet = width_Window * 0.15;
 
 width_Coil = 0.10;
 height_Coil = 0.15;
-gap_Core_Coil = 0.05;
+gap_Core_Coil = 0.04;
 
 // Gaps around the core (for air box)
 gap_Core_Box_X = 1.;
