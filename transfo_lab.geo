@@ -1,11 +1,18 @@
 Include "transfo_common.pro";
 
 // ==============================================================================
-// 5-LEG CORE - GESTART VANAF OORSPRONG (0,0,0) helemaal linksonderaan
+// 5-LEG CORE - GESTART VANAF OORSPRONG (0,0,0) - MET AFGERONDE HOEKEN
 // ==============================================================================
 
+// Parameter voor de afronding (bijv. 15% van de kleinste raambreedte)
+// Pas dit getal aan om de hoeken ronder of scherper te maken
+r_fillet = width_Window * 0.15; 
+
+// ------------------------------------------------------------------
+// PUNTEN DEFINITIE (Exact zoals jouw originele code)
+// ------------------------------------------------------------------
+
 // --- Been 1 (Meest Links) ---
-// Dit been begint op X=0
 p_Leg_1_1=newp; Point(newp) = {0, 0, 0, c_Core};
 p_Leg_1_3=newp; Point(newp) = {width_Core_Leg, height_Core_Leg, 0, c_Core};
 
@@ -13,14 +20,13 @@ p_Leg_1_2=newp; Point(newp) = {0, height_Core, 0, c_Core};
 p_Leg_1_4=newp; Point(newp) = {width_Core_Leg, height_Core_Leg+height_Window, 0, c_Core};
 
 // --- Been 2 ---
-// X = Breedte vorige been (1*Outer_Leg) + 1 raam (1*Window)
 p_Leg_2_5=newp; Point(newp) = {width_Core_Leg + width_Outer_Window, height_Core_Leg, 0, c_Core};
 p_Leg_2_7=newp; Point(newp) = {2*width_Core_Leg + width_Outer_Window, height_Core_Leg, 0, c_Core};
 
 p_Leg_2_6=newp; Point(newp) = {width_Core_Leg + width_Outer_Window, height_Core_Leg + height_Window, 0, c_Core};
 p_Leg_2_8=newp; Point(newp) = {2*width_Core_Leg + width_Outer_Window, height_Core_Leg + height_Window, 0, c_Core};
+
 // --- Been 3 (Middelste) ---
-// X = Breedte vorige benen (2*Leg) + 2 ramen (2*Window)
 p_Leg_3_9=newp; Point(newp)  = {2*width_Core_Leg + width_Window + width_Outer_Window, height_Core_Leg, 0, c_Core};
 p_Leg_3_11=newp; Point(newp) = {3*width_Core_Leg + width_Window + width_Outer_Window, height_Core_Leg, 0, c_Core};
 
@@ -28,14 +34,13 @@ p_Leg_3_10=newp; Point(newp) = {2*width_Core_Leg + width_Window+width_Outer_Wind
 p_Leg_3_12=newp; Point(newp) = {3*width_Core_Leg + width_Window+width_Outer_Window, height_Core_Leg+height_Window, 0, c_Core};
 
 // --- Been 4 ---
-// X = Breedte vorige benen (3*Leg) + 3 ramen (3*Window)
 p_Leg_4_13=newp; Point(newp) = {3*width_Core_Leg + 2*width_Window + width_Outer_Window, height_Core_Leg, 0, c_Core};
 p_Leg_4_15=newp; Point(newp) = {4*width_Core_Leg + 2*width_Window + width_Outer_Window, height_Core_Leg, 0, c_Core};
 
 p_Leg_4_14=newp; Point(newp) = {3*width_Core_Leg + 2*width_Window + width_Outer_Window, height_Core_Leg+height_Window, 0, c_Core};
 p_Leg_4_16=newp; Point(newp) = {4*width_Core_Leg + 2*width_Window + width_Outer_Window, height_Core_Leg+height_Window, 0, c_Core};
+
 // --- Been 5 (Meest Rechts) ---
-// X = Breedte vorige benen (4*Leg) + 4 ramen (4*Window)
 p_Leg_5_17=newp; Point(newp) = {4*width_Core_Leg + 2*width_Window + 2*width_Outer_Window, height_Core_Leg, 0, c_Core};
 p_Leg_5_19=newp; Point(newp) = {5*width_Core_Leg + 2*width_Window + 2*width_Outer_Window, 0, 0, c_Core};
 
@@ -43,30 +48,145 @@ p_Leg_5_18=newp; Point(newp) = {4*width_Core_Leg + 2*width_Window + 2*width_Oute
 p_Leg_5_20=newp; Point(newp) = {5*width_Core_Leg + 2*width_Window + 2*width_Outer_Window, 2*height_Core_Leg+height_Window, 0, c_Core};
 
 
+// ------------------------------------------------------------------
+// LIJNEN MAKEN (Hier passen we de fillets toe)
+// ------------------------------------------------------------------
+
+// Macro om de 4 hoekpunten van een raam op te halen en er fillets van te maken
+// We gebruiken de coordinaten van jouw bestaande punten:
+// Links-Onder (BL), Links-Boven (TL), Rechts-Boven (TR), Rechts-Onder (BR)
+
+// === WINDOW 1 ===
+// Coordinaten ophalen uit jouw punten p_Leg_1_3 (BL), p_Leg_1_4 (TL), p_Leg_2_6 (TR), p_Leg_2_5 (BR)
+x_L = Point{p_Leg_1_3}; 
+x_R = Point{p_Leg_2_5};
+y_B = Point{p_Leg_1_3};
+y_T = Point{p_Leg_1_4};
+
+// Punten maken voor de boogjes
+p_w1_bl_1 = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1], 0, c_Core};
+p_w1_bl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1] + r_fillet, 0, c_Core}; // Center
+p_w1_bl_2 = newp; Point(newp) = {x_L[0], y_B[1] + r_fillet, 0, c_Core};
+
+p_w1_tl_1 = newp; Point(newp) = {x_L[0], y_T[1] - r_fillet, 0, c_Core};
+p_w1_tl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1] - r_fillet, 0, c_Core}; // Center
+p_w1_tl_2 = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1], 0, c_Core};
+
+p_w1_tr_1 = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1], 0, c_Core};
+p_w1_tr_c = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1] - r_fillet, 0, c_Core}; // Center
+p_w1_tr_2 = newp; Point(newp) = {x_R[0], y_T[1] - r_fillet, 0, c_Core};
+p_w1_br_1 = newp; Point(newp) = {x_R[0], y_B[1] + r_fillet, 0, c_Core};
+p_w1_br_c = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1] + r_fillet, 0, c_Core}; // Center
+p_w1_br_2 = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1], 0, c_Core};
+
 l_Core_In_1[]={};
-l_Core_In_1[]+=newl; Line(newl) = {p_Leg_1_3,p_Leg_1_4};
-l_Core_In_1[]+=newl; Line(newl) = {p_Leg_1_4,p_Leg_2_6};
-l_Core_In_1[]+=newl; Line(newl) = {p_Leg_2_6,p_Leg_2_5};
-l_Core_In_1[]+=newl; Line(newl) = {p_Leg_2_5,p_Leg_1_3};
+l_Core_In_1[]+=newl; Line(newl)   = {p_w1_bl_2, p_w1_tl_1};       // Links omhoog
+l_Core_In_1[]+=newl; Circle(newl) = {p_w1_tl_1, p_w1_tl_c, p_w1_tl_2}; // Bocht LB
+l_Core_In_1[]+=newl; Line(newl)   = {p_w1_tl_2, p_w1_tr_1};       // Boven naar rechts
+l_Core_In_1[]+=newl; Circle(newl) = {p_w1_tr_1, p_w1_tr_c, p_w1_tr_2}; // Bocht RB
+l_Core_In_1[]+=newl; Line(newl)   = {p_w1_tr_2, p_w1_br_1};       // Rechts omlaag
+l_Core_In_1[]+=newl; Circle(newl) = {p_w1_br_1, p_w1_br_c, p_w1_br_2}; // Bocht RO
+l_Core_In_1[]+=newl; Line(newl)   = {p_w1_br_2, p_w1_bl_1};       // Onder naar links
+l_Core_In_1[]+=newl; Circle(newl) = {p_w1_bl_1, p_w1_bl_c, p_w1_bl_2}; // Bocht LO
+
+
+// === WINDOW 2 ===
+// Coordinaten ophalen: p_Leg_2_7 (BL), p_Leg_2_8 (TL), p_Leg_3_10 (TR), p_Leg_3_9 (BR)
+x_L = Point{p_Leg_2_7}; 
+x_R = Point{p_Leg_3_9};
+// Y coordinaten zijn overal hetzelfde (y_B en y_T), dus hergebruiken we
+
+p_w2_bl_1 = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1], 0, c_Core};
+p_w2_bl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1] + r_fillet, 0, c_Core};
+p_w2_bl_2 = newp; Point(newp) = {x_L[0], y_B[1] + r_fillet, 0, c_Core};
+
+p_w2_tl_1 = newp; Point(newp) = {x_L[0], y_T[1] - r_fillet, 0, c_Core};
+p_w2_tl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1] - r_fillet, 0, c_Core};
+p_w2_tl_2 = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1], 0, c_Core};
+
+p_w2_tr_1 = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1], 0, c_Core};
+p_w2_tr_c = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1] - r_fillet, 0, c_Core};
+p_w2_tr_2 = newp; Point(newp) = {x_R[0], y_T[1] - r_fillet, 0, c_Core};
+p_w2_br_1 = newp; Point(newp) = {x_R[0], y_B[1] + r_fillet, 0, c_Core};
+p_w2_br_c = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1] + r_fillet, 0, c_Core};
+p_w2_br_2 = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1], 0, c_Core};
 
 l_Core_In_2[]={};
-l_Core_In_2[]+=newl; Line(newl) = {p_Leg_2_7,p_Leg_2_8};
-l_Core_In_2[]+=newl; Line(newl) = {p_Leg_2_8,p_Leg_3_10};
-l_Core_In_2[]+=newl; Line(newl) = {p_Leg_3_10,p_Leg_3_9};
-l_Core_In_2[]+=newl; Line(newl) = {p_Leg_3_9,p_Leg_2_7};
+l_Core_In_2[]+=newl; Line(newl)   = {p_w2_bl_2, p_w2_tl_1};
+l_Core_In_2[]+=newl; Circle(newl) = {p_w2_tl_1, p_w2_tl_c, p_w2_tl_2};
+l_Core_In_2[]+=newl; Line(newl)   = {p_w2_tl_2, p_w2_tr_1};
+l_Core_In_2[]+=newl; Circle(newl) = {p_w2_tr_1, p_w2_tr_c, p_w2_tr_2};
+l_Core_In_2[]+=newl; Line(newl)   = {p_w2_tr_2, p_w2_br_1};
+l_Core_In_2[]+=newl; Circle(newl) = {p_w2_br_1, p_w2_br_c, p_w2_br_2};
+l_Core_In_2[]+=newl; Line(newl)   = {p_w2_br_2, p_w2_bl_1};
+l_Core_In_2[]+=newl; Circle(newl) = {p_w2_bl_1, p_w2_bl_c, p_w2_bl_2};
 
+
+// === WINDOW 3 ===
+// Coordinaten: p_Leg_3_11 (BL), p_Leg_3_12 (TL), p_Leg_4_14 (TR), p_Leg_4_13 (BR)
+x_L = Point{p_Leg_3_11}; 
+x_R = Point{p_Leg_4_13};
+
+p_w3_bl_1 = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1], 0, c_Core};
+p_w3_bl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1] + r_fillet, 0, c_Core};
+p_w3_bl_2 = newp; Point(newp) = {x_L[0], y_B[1] + r_fillet, 0, c_Core};
+
+p_w3_tl_1 = newp; Point(newp) = {x_L[0], y_T[1] - r_fillet, 0, c_Core};
+p_w3_tl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1] - r_fillet, 0, c_Core};
+p_w3_tl_2 = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1], 0, c_Core};
+
+p_w3_tr_1 = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1], 0, c_Core};
+p_w3_tr_c = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1] - r_fillet, 0, c_Core};
+p_w3_tr_2 = newp; Point(newp) = {x_R[0], y_T[1] - r_fillet, 0, c_Core};
+
+p_w3_br_1 = newp; Point(newp) = {x_R[0], y_B[1] + r_fillet, 0, c_Core};
+p_w3_br_c = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1] + r_fillet, 0, c_Core};
+p_w3_br_2 = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1], 0, c_Core};
 l_Core_In_3[]={};
-l_Core_In_3[]+=newl; Line(newl) = {p_Leg_3_11,p_Leg_3_12};
-l_Core_In_3[]+=newl; Line(newl) = {p_Leg_3_12,p_Leg_4_14};
-l_Core_In_3[]+=newl; Line(newl) = {p_Leg_4_14,p_Leg_4_13};
-l_Core_In_3[]+=newl; Line(newl) = {p_Leg_4_13,p_Leg_3_11};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w3_bl_2, p_w3_tl_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w3_tl_1, p_w3_tl_c, p_w3_tl_2};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w3_tl_2, p_w3_tr_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w3_tr_1, p_w3_tr_c, p_w3_tr_2};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w3_tr_2, p_w3_br_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w3_br_1, p_w3_br_c, p_w3_br_2};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w3_br_2, p_w3_bl_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w3_bl_1, p_w3_bl_c, p_w3_bl_2};
+
+
+// === WINDOW 4 ===
+// Coordinaten: p_Leg_4_15 (BL), p_Leg_4_16 (TL), p_Leg_5_18 (TR), p_Leg_5_17 (BR)
+x_L = Point{p_Leg_4_15}; 
+x_R = Point{p_Leg_5_17};
+
+p_w4_bl_1 = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1], 0, c_Core};
+p_w4_bl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_B[1] + r_fillet, 0, c_Core};
+p_w4_bl_2 = newp; Point(newp) = {x_L[0], y_B[1] + r_fillet, 0, c_Core};
+p_w4_tl_1 = newp; Point(newp) = {x_L[0], y_T[1] - r_fillet, 0, c_Core};
+p_w4_tl_c = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1] - r_fillet, 0, c_Core};
+p_w4_tl_2 = newp; Point(newp) = {x_L[0] + r_fillet, y_T[1], 0, c_Core};
+
+p_w4_tr_1 = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1], 0, c_Core};
+p_w4_tr_c = newp; Point(newp) = {x_R[0] - r_fillet, y_T[1] - r_fillet, 0, c_Core};
+p_w4_tr_2 = newp; Point(newp) = {x_R[0], y_T[1] - r_fillet, 0, c_Core};
+
+p_w4_br_1 = newp; Point(newp) = {x_R[0], y_B[1] + r_fillet, 0, c_Core};
+p_w4_br_c = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1] + r_fillet, 0, c_Core};
+p_w4_br_2 = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1], 0, c_Core};
 
 l_Core_In_4[]={};
-l_Core_In_4[]+=newl; Line(newl) = {p_Leg_4_15,p_Leg_4_16};
-l_Core_In_4[]+=newl; Line(newl) = {p_Leg_4_16,p_Leg_5_18};
-l_Core_In_4[]+=newl; Line(newl) = {p_Leg_5_18,p_Leg_5_17};
-l_Core_In_4[]+=newl; Line(newl) = {p_Leg_5_17,p_Leg_4_15};
+l_Core_In_4[]+=newl; Line(newl)   = {p_w4_bl_2, p_w4_tl_1};
+l_Core_In_4[]+=newl; Circle(newl) = {p_w4_tl_1, p_w4_tl_c, p_w4_tl_2};
+l_Core_In_4[]+=newl; Line(newl)   = {p_w4_tl_2, p_w4_tr_1};
+l_Core_In_4[]+=newl; Circle(newl) = {p_w4_tr_1, p_w4_tr_c, p_w4_tr_2};
+l_Core_In_4[]+=newl; Line(newl)   = {p_w4_tr_2, p_w4_br_1};
+l_Core_In_4[]+=newl; Circle(newl) = {p_w4_br_1, p_w4_br_c, p_w4_br_2};
+l_Core_In_4[]+=newl; Line(newl)   = {p_w4_br_2, p_w4_bl_1};
+l_Core_In_4[]+=newl; Circle(newl) = {p_w4_bl_1, p_w4_bl_c, p_w4_bl_2};
 
+
+// ------------------------------------------------------------------
+// BUITENKANT
+// ------------------------------------------------------------------
 l_Core_Out[]={};
 l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_1,p_Leg_1_2};
 l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_2,p_Leg_5_20};
