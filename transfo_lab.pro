@@ -204,16 +204,14 @@ Group {
   Resistance_Cir += Region[{R_in_p1}];
 
   // Secondary side phase 1
-  R_out_p1 = Region[10111]; // arbitrary region number (not linked to the mesh)
-  Resistance_Cir += Region[{R_out_p1}];
-
-  // C_out_p1 = Region[10112]; // arbitrary region number (not linked to the mesh)
-  // Capacitance_Cir += Region[{C_out_p1}];
-  // L_out_p1 = Region[10113]; // arbitrary region number (not linked to the mesh)
-  // Inductance_Cir += Region[{L_out_p1}];
-  
-  // R_winding_p1 = Region[10114]; // arbitrary region number (not linked to the mesh)
-  // Resistance_Cir += Region[{R_winding_p1}];
+  Load_out_p1 = Region[10111]; // arbitrary region number (not linked to the mesh)
+  If (Type_load == 1) // Resistive load
+    Resistance_Cir += Region[{Load_out_p1}];
+  ElseIf (Type_load == 2) // Inductive load
+    Inductance_Cir += Region[{Load_out_p1}];
+  ElseIf (Type_load == 3) // Capacitive load
+    Capacitance_Cir += Region[{Load_out_p1}];
+  EndIf
 
   // Primary side phase 2
   E_in_p2 = Region[10021]; // arbitrary region number (not linked to the mesh)
@@ -223,17 +221,15 @@ Group {
   Resistance_Cir += Region[{R_in_p2}];
 
   // Secondary side phase 2
-  R_out_p2 = Region[10121]; // arbitrary region number (not linked to the mesh)
-  Resistance_Cir += Region[{R_out_p2}];
+  Load_out_p2 = Region[10121]; // arbitrary region number (not linked to the mesh)
+  If (Type_load == 1) // Resistive load
+    Resistance_Cir += Region[{Load_out_p2}];
+  ElseIf (Type_load == 2) // Inductive load
+    Inductance_Cir += Region[{Load_out_p2}];
+  ElseIf (Type_load == 3) // Capacitive load
+    Capacitance_Cir += Region[{Load_out_p2}];
+  EndIf
   
-  // C_out_p2 = Region[10122]; // arbitrary region number (not linked to the mesh)
-  // Capacitance_Cir += Region[{C_out_p2}];
-  // L_out_p2 = Region[10123]; // arbitrary region number (not linked to the mesh)
-  // Inductance_Cir += Region[{L_out_p2}];
-
-  // R_winding_p2 = Region[10124]; // arbitrary region number (not linked to the mesh)
-  // Resistance_Cir += Region[{R_winding_p2}];
-
   // Primary side phase 3
   E_in_p3 = Region[10031]; // arbitrary region number (not linked to the mesh)
   SourceV_Cir += Region[{E_in_p3}];
@@ -241,16 +237,14 @@ Group {
   R_in_p3 = Region[10032]; // arbitrary region number (not linked to the mesh)
   Resistance_Cir += Region[{R_in_p3}];
   // Secondary side phase 3
-  R_out_p3 = Region[10131]; // arbitrary region number (not linked to the mesh)
-  Resistance_Cir += Region[{R_out_p3}];
-
-  // C_out_p3 = Region[10132]; // arbitrary region number (not linked to the mesh)
-  // Capacitance_Cir += Region[{C_out_p3}];
-
-  // L_out_p3 = Region[10133]; // arbitrary region number (not linked to the mesh)
-  // Inductance_Cir += Region[{L_out_p3}];
-  // R_winding_p3 = Region[10134]; // arbitrary region number (not linked to the mesh)
-  // Resistance_Cir += Region[{R_winding_p3}];
+  Load_out_p3 = Region[10131]; // arbitrary region number (not linked to the mesh)
+  If (Type_load == 1) // Resistive load
+    Resistance_Cir += Region[{Load_out_p3}];
+  ElseIf (Type_load == 2) // Inductive load
+    Inductance_Cir += Region[{Load_out_p3}];
+  ElseIf (Type_load == 3) // Capacitive load
+    Capacitance_Cir += Region[{Load_out_p3}];
+  EndIf
 }
 
 Function {
@@ -299,101 +293,78 @@ Function {
   // High value for an open-circuit test; Low value for a short-circuit test;
   // any value in-between for any charge
   If(Operation_mode == 1) // Normal operation
-    If(Type_load == 1) // purely Resistive load
-      Resistance[R_out_p1] = magnitude_load;
-      Resistance[R_out_p2] = magnitude_load;
-      Resistance[R_out_p3] = magnitude_load;
-      // capacitance[C_out_p1] = 0;
-      // capacitance[C_out_p2] = 0;
-      // capacitance[C_out_p3] = 0;
-      // Inductance[L_out_p1] = 0;
-      // Inductance[L_out_p2] = 0;
-      // Inductance[L_out_p3] = 0;
+    If(Type_load == 1) // Resistive load
+      Resistance[Load_out_p1] = magnitude_load;
+      Resistance[Load_out_p2] = magnitude_load;
+      Resistance[Load_out_p3] = magnitude_load;
     ElseIf(Type_load == 2) // Inductive load
-      Resistance[R_out_p1] = magnitude_load * power_factor;
-      Resistance[R_out_p2] = magnitude_load * power_factor;
-      Resistance[R_out_p3] = magnitude_load * power_factor;
-      // capacitance[C_out_p1] = 0;
-      // capacitance[C_out_p2] = 0;
-      // capacitance[C_out_p3] = 0;
-      // Inductance[L_out_p1] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
-      // Inductance[L_out_p2] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
-      // Inductance[L_out_p3] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
-    ElseIf(type_load == 3) // Capacative load
-      If (power_factor == 0)
-        Resistance[R_out_p1] = 1e15; // very high value for purely inductive load
-        Resistance[R_out_p2] = 1e15;
-        Resistance[R_out_p3] = 1e15;
-      Else
-        Resistance[R_out_p1] = magnitude_load / power_factor;
-        Resistance[R_out_p2] = magnitude_load / power_factor;
-        Resistance[R_out_p3] = magnitude_load / power_factor;
-      EndIf
-      // capacitance[C_out_p1] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
-      // capacitance[C_out_p2] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
-      // capacitance[C_out_p3] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
-      // Inductance[L_out_p1] = 0;
-      // Inductance[L_out_p2] = 0;
-      // Inductance[L_out_p3] = 0;
+      Inductance[L_out_p1] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[L_out_p2] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[L_out_p3] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+    ElseIf(Type_load == 3) // Capacative load
+      Capacitance[Load_out_p1] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
+      Capacitance[Load_out_p2] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
+      Capacitance[Load_out_p3] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
     EndIf
   
 
   ElseIf(Operation_mode == 2) // Short-circuit test
-    Resistance[R_out_p1] = 0;
-    Resistance[R_out_p2] = 0;
-    Resistance[R_out_p3] = 0;
-    // capacitance[C_out_p1] = 0;
-    // capacitance[C_out_p2] = 0;
-    // capacitance[C_out_p3] = 0;
-    // Inductance[L_out_p1] = 0;
-    // Inductance[L_out_p2] = 0;
-    // Inductance[L_out_p3] = 0;
+    If(Type_load == 1)
+      Resistance[Load_out_p1] = 0;
+      Resistance[Load_out_p2] = 0;
+      Resistance[Load_out_p3] = 0;
+    ElseIf(Type_load == 2)
+      Inductance[L_out_p1] = 1e-12; // very low value for short-circuit
+      Inductance[L_out_p2] = 1e-12;
+      Inductance[L_out_p3] = 1e-12;
+    ElseIf(Type_load == 3)
+      Capacitance[C_out_p1] = 1e12; // very high value for short-circuit
+      Capacitance[C_out_p2] = 1e12;
+      Capacitance[C_out_p3] = 1e12;
+    EndIf
 
   ElseIf(Operation_mode == 3) // Open-circuit test
-    Resistance[R_out_p1] = 1e12; // very high value for open-circuit
-    Resistance[R_out_p2] = 1e12;
-    Resistance[R_out_p3] = 1e12;
-    // capacitance[C_out_p1] =1e-12;
-    // capacitance[C_out_p2] = 1e-12;
-    // capacitance[C_out_p3] = 1e-12;
-    // Inductance[L_out_p1] = 1e-12;
-    // Inductance[L_out_p2] = 1e-12;
-    // Inductance[L_out_p3] = 1e-12;
-  EndIf
-
-
-    
-  // // End-winding primary winding resistance for more realistic primary coil
-  // // model
-  // Resistance[R_winding_p1] = 1e-3;
-  // Resistance[R_winding_p2] = 1e-3;
-  // Resistance[R_winding_p3] = 1e-3;
-
-  If (Operation_mode == 1) // Normal operation
-    // Small resistance to avoid singular matrix
-    Resistance[R_in_p1] = 1e-3;
-    Resistance[R_in_p2] = 1e-3;
-    Resistance[R_in_p3] = 1e-3;
-  ElseIf (Operation_mode == 2 || Operation_mode == 3)
-    If(test_phase == 1)
-      // Negligible resistance for non-tested phases
-      Resistance[R_in_p1] = 1e-3;
-      Resistance[R_in_p2] = 1e12;
-      Resistance[R_in_p3] = 1e12;
-    ElseIf(test_phase == 2)
-      // Negligible resistance for non-tested phases
-      Resistance[R_in_p1] = 1e12;
-      Resistance[R_in_p2] = 1e-3;
-      Resistance[R_in_p3] = 1e12;
-    ElseIf(test_phase == 3)
-      // Negligible resistance for non-tested phases
-      Resistance[R_in_p1] = 1e12;
-      Resistance[R_in_p2] = 1e12;
-      Resistance[R_in_p3] = 1e-3;
+    If(Type_load == 1)
+      Resistance[Load_out_p1] = 1e12; // very high value for open-circuit
+      Resistance[Load_out_p2] = 1e12;
+      Resistance[Load_out_p3] = 1e12;
+    ElseIf(Type_load == 2)
+      Inductance[L_out_p1] = 1e12; // very high value for open-circuit
+      Inductance[L_out_p2] = 1e12;
+      Inductance[L_out_p3] = 1e12;
+    ElseIf(Type_load == 3)
+      Capacitance[C_out_p1] = 1e-12; // very low value for open-circuit
+      Capacitance[C_out_p2] = 1e-12;
+      Capacitance[C_out_p3] = 1e-12;
     EndIf
   EndIf
-
 }
+
+  // If (Operation_mode == 1) // Normal operation
+  //   // Small resistance to avoid singular matrix
+  //   Resistance[R_in_p1] = 1e-3;
+  //   Resistance[R_in_p2] = 1e-3;
+  //   Resistance[R_in_p3] = 1e-3;
+  // ElseIf (Operation_mode == 2 || Operation_mode == 3)
+  //   If(test_phase == 1)
+  //     // Negligible resistance for non-tested phases
+  //     Resistance[R_in_p1] = 1e-3;
+  //     Resistance[R_in_p2] = 1e12;
+  //     Resistance[R_in_p3] = 1e12;
+  //   ElseIf(test_phase == 2)
+  //     // Negligible resistance for non-tested phases
+  //     Resistance[R_in_p1] = 1e12;
+  //     Resistance[R_in_p2] = 1e-3;
+  //     Resistance[R_in_p3] = 1e12;
+  //   ElseIf(test_phase == 3)
+  //     // Negligible resistance for non-tested phases
+  //     Resistance[R_in_p1] = 1e12;
+  //     Resistance[R_in_p2] = 1e12;
+  //     Resistance[R_in_p3] = 1e-3;
+  //   EndIf
+  // EndIf
+
+
 
 Constraint {
   { Name MagneticVectorPotential_2D;
@@ -457,7 +428,7 @@ Constraint {
     Case Circuit_2 {
       // Secondary side in Y connection
       /*
-      { Region R_out_p1; Branch {1,2}; }
+      { Region Load_out_p1; Branch {1,2}; }
       { Region L_out_p1; Branch {2,3}; }
       { Region C_out_p1; Branch {3,1}; }
       { Region R_winding_p1; Branch {3,4}; }
@@ -465,7 +436,7 @@ Constraint {
       { Region Coil_p1_L_P; Branch {4,5} ; }
       { Region Coil_p1_L_M; Branch {5,6} ; }
 
-      { Region R_out_p2; Branch {1,10}; }
+      { Region Load_out_p2; Branch {1,10}; }
       { Region L_out_p2; Branch {10,11}; }
       { Region C_out_p2; Branch {11,1}; }
       { Region R_winding_p2; Branch {11,6}; }
@@ -473,7 +444,7 @@ Constraint {
       { Region Coil_p2_L_P; Branch {6,7} ; }
       { Region Coil_p2_L_M; Branch {7,8} ; }
 
-      { Region R_out_p3; Branch {1,12}; }
+      { Region Load_out_p3; Branch {1,12}; }
       { Region L_out_p3; Branch {12,13}; }
       { Region C_out_p3; Branch {13,1}; }
       { Region R_winding_p3; Branch {13,8}; }
@@ -483,7 +454,7 @@ Constraint {
 */
       // Secondary side in Delta connection with RLC load
       /*
-      { Region R_out_p1; Branch {1,2}; }
+      { Region Load_out_p1; Branch {1,2}; }
       { Region L_out_p1; Branch {2,3}; }
       { Region C_out_p1; Branch {3,1}; }
       { Region R_winding_p1; Branch {3,4}; }
@@ -491,7 +462,7 @@ Constraint {
       { Region Coil_p1_L_P; Branch {4,5} ; }
       { Region Coil_p1_L_M; Branch {5,6} ; }
 
-      { Region R_out_p2; Branch {1,10}; }
+      { Region Load_out_p2; Branch {1,10}; }
       { Region L_out_p2; Branch {10,11}; }
       { Region C_out_p2; Branch {11,1}; }
       { Region R_winding_p2; Branch {11,6}; }
@@ -499,7 +470,7 @@ Constraint {
       { Region Coil_p2_L_P; Branch {6,7} ; }
       { Region Coil_p2_L_M; Branch {7,8} ; }
 
-      { Region R_out_p3; Branch {1,12}; }
+      { Region Load_out_p3; Branch {1,12}; }
       { Region L_out_p3; Branch {12,13}; }
       { Region C_out_p3; Branch {13,1}; }
       { Region R_winding_p3; Branch {13,8}; }
@@ -509,15 +480,15 @@ Constraint {
       */
       // Secondary side in Delta connection with resistive load only
       // Secondary side in Delta connection
-      { Region R_out_p1; Branch {1,2}; }
+      { Region Load_out_p1; Branch {1,2}; }
       { Region Coil_p1_L_P; Branch {2,3} ; }
       { Region Coil_p1_L_M; Branch {3,4} ; }
 
-      { Region R_out_p2; Branch {1,4}; }
+      { Region Load_out_p2; Branch {1,4}; }
       { Region Coil_p2_L_P; Branch {4,5} ; }
       { Region Coil_p2_L_M; Branch {5,6} ; }
 
-      { Region R_out_p3;   Branch {1,6} ; }
+      { Region Load_out_p3;   Branch {1,6} ; }
       { Region Coil_p3_L_P; Branch {6,7} ; }
       { Region Coil_p3_L_M; Branch {7,1} ; } 
 }
@@ -550,15 +521,15 @@ PostOperation {
         // In text file UI.txt: voltage and current of the secondary coil (from
         // R_out)
         Echo[ "Load_phase_1", Format Table, File > "UI.txt" ];
-        Print[ U, OnRegion R_out_p1, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_out_p1, Format FrequencyTable, File > "UI.txt"];
+        Print[ U, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt"];
 
         Echo[ "load_phase_2", Format Table, File > "UI.txt" ];
-        Print[ U, OnRegion R_out_p2, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_out_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
         Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
-        Print[ U, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt" ];
-        Print[ I, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt"];
+        Print[ U, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt" ];
+        Print[ I, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
 
       Print[JouleLosses[Coils], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Winding Losses"], Color "LightGreen" ];
