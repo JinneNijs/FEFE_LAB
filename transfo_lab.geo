@@ -15,7 +15,7 @@ Include "transfo_common.pro";
 p_Leg_1_1=newp; Point(newp) = {0, 0, 0, c_Core};
 p_Leg_1_3=newp; Point(newp) = {width_Core_Leg, height_Core_Leg, 0, c_Core};
 
-p_Leg_1_2=newp; Point(newp) = {0, height_Core, 0, c_Core};
+p_Leg_1_2=newp; Point(newp) = {0, 2*height_Core_Leg+height_Window, 0, c_Core};
 p_Leg_1_4=newp; Point(newp) = {width_Core_Leg, height_Core_Leg+height_Window, 0, c_Core};
 
 // --- Been 2 ---

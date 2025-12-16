@@ -309,6 +309,10 @@ Formulation {
       Integral { [ nu[] * Dof{d a} , {d a} ];
         In Vol_L_Mag; Jacobian Vol; Integration Gauss_v; }
 
+        // Galerkin { DtDof [ sigma[]*thickness_sheet^2/12 * Dof{d a} , {d a} ]; 
+        // In Core; Jacobian Vol; Integration Gauss_v; }
+
+
       If(Flag_NewtonRaphson)
         Integral { [ nu[{d a}] * {d a} , {d a} ];
           In Vol_NL_Mag; Jacobian Vol; Integration Gauss_v; }

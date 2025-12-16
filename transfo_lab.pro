@@ -49,7 +49,7 @@ DefineConstant[
     Name "Parameters/Load/Load type"} 
   magnitude_load = {0.846,
     Name "Parameters/Load/Load magnitude"} 
-  winding_ratio = {1,
+  winding_ratio = {3,
     Name "Parameters/Coils/Number of 17 turns per high-side coil"}
 ];
   
@@ -561,9 +561,9 @@ PostOperation {
         Print[ I, OnRegion R_out_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
 
-      //Print[JouleLosses[Coils], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Winding Losses"], Color "LightGreen" ];
-      //Print[IronLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Hysteresis Losses"], Color "LightBlue" ];
-      //Print[EddyLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightYellow" ];
+      Print[JouleLosses[Coils], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Winding Losses"], Color "LightGreen" ];
+      Print[IronLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Hysteresis Losses (Core)"], Color "LightBlue" ];
+      Print[EddyLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightYellow" ];
     }
   }
 }

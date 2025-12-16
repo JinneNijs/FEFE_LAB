@@ -7,28 +7,27 @@ beta=2.1;
 
 // Dimensions   
 
-width_Core = .55; // Width of the core
-height_Core = .55; // Height of the core
+width_Core = .65; // Width of the core
+height_Core = .7; // Height of the core
 // Thickness along Oz (to be considered for a correct definition of voltage)
-thickness_Core = 0.3;
+thickness_Core = 0.35;
 sheets = 10;
 thickness_sheet = thickness_Core/sheets;
-width_Window = 0.30;
-width_Outer_Window=width_Window;
-//width_Outer_Window=width_Window*0.5- gap_Core_Coil;
-height_Window = 0.28;
+width_Window = 0.16;
+width_Outer_Window=width_Window*0.5-0.005;
+height_Window = 0.25;
 
-width_Core_Leg = (width_Core-width_Window)/2.;
-height_Core_Leg = (height_Core-height_Window)/2.;
+width_Core_Leg = (width_Core-2*width_Window)/3.;
+height_Core_Leg = (height_Core-2*height_Window)/3.;
 r_fillet = width_Window * 0.15;  // Hoe hard de hoeken afgerond worden
 
-width_Coil = 0.10;
-height_Coil = 0.08;
-gap_Core_Coil = 0.04;
+width_Coil = 0.05;
+height_Coil = 0.10;
+gap_Core_Coil = 0.01;
 
 // Gaps around the core (for air box)
-gap_Core_Box_X = 1.;
-gap_Core_Box_Y = 1.5;
+gap_Core_Box_X = 0.5;
+gap_Core_Box_Y = 0.5;
 
 // Characteristic lenghts (for mesh sizes)
 
