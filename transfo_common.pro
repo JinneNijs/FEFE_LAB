@@ -23,7 +23,7 @@ r_fillet = width_Window * 0.15;  // Hoe hard de hoeken afgerond worden
 
 width_Coil = 0.05;
 height_Coil = 0.08;
-gap_Core_Coil = 0.008;
+gap_Core_Coil = 0.0067;
 
 // Gaps around the core (for air box)
 gap_Core_Box_X = 0.5;
