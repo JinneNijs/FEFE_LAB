@@ -14,7 +14,7 @@ thickness_Core = 0.3;
 sheets = 20;
 thickness_sheet = thickness_Core/sheets;
 width_Window = 0.14;
-width_Outer_Window=width_Window*0.5-0.005;
+width_Outer_Window=width_Window*0.5-0.007;
 height_Window = 0.21;
 
 width_Core_Leg = (width_Core-2*width_Window)/3.;
