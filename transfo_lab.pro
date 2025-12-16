@@ -298,9 +298,9 @@ Function {
       Resistance[Load_out_p2] = magnitude_load;
       Resistance[Load_out_p3] = magnitude_load;
     ElseIf(Type_load == 2) // Inductive load
-      Inductance[L_out_p1] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
-      Inductance[L_out_p2] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
-      Inductance[L_out_p3] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[Load_out_p1] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[Load_out_p2] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
+      Inductance[Load_out_p3] = (1-power_factor^2)^(1/2) * magnitude_load/(2*Pi*Freq);
     ElseIf(Type_load == 3) // Capacative load
       Capacitance[Load_out_p1] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
       Capacitance[Load_out_p2] = (1-power_factor^2)^(1/2)/( (2*Pi*Freq)*magnitude_load );
@@ -314,13 +314,13 @@ Function {
       Resistance[Load_out_p2] = 0;
       Resistance[Load_out_p3] = 0;
     ElseIf(Type_load == 2)
-      Inductance[L_out_p1] = 1e-12; // very low value for short-circuit
-      Inductance[L_out_p2] = 1e-12;
-      Inductance[L_out_p3] = 1e-12;
+      Inductance[Load_out_p1] = 1e-12; // very low value for short-circuit
+      Inductance[Load_out_p2] = 1e-12;
+      Inductance[Load_out_p3] = 1e-12;
     ElseIf(Type_load == 3)
-      Capacitance[C_out_p1] = 1e12; // very high value for short-circuit
-      Capacitance[C_out_p2] = 1e12;
-      Capacitance[C_out_p3] = 1e12;
+      Capacitance[Load_out_p1] = 1e12; // very high value for short-circuit
+      Capacitance[Load_out_p2] = 1e12;
+      Capacitance[Load_out_p3] = 1e12;
     EndIf
 
   ElseIf(Operation_mode == 3) // Open-circuit test
@@ -329,42 +329,42 @@ Function {
       Resistance[Load_out_p2] = 1e12;
       Resistance[Load_out_p3] = 1e12;
     ElseIf(Type_load == 2)
-      Inductance[L_out_p1] = 1e12; // very high value for open-circuit
-      Inductance[L_out_p2] = 1e12;
-      Inductance[L_out_p3] = 1e12;
+      Inductance[Load_out_p1] = 1e12; // very high value for open-circuit
+      Inductance[Load_out_p2] = 1e12;
+      Inductance[Load_out_p3] = 1e12;
     ElseIf(Type_load == 3)
-      Capacitance[C_out_p1] = 1e-12; // very low value for open-circuit
-      Capacitance[C_out_p2] = 1e-12;
-      Capacitance[C_out_p3] = 1e-12;
+      Capacitance[Load_out_p1] = 1e-12; // very low value for open-circuit
+      Capacitance[Load_out_p2] = 1e-12;
+      Capacitance[Load_out_p3] = 1e-12;
     EndIf
   EndIf
+
+
+  If (Operation_mode == 1) // Normal operation
+    // Small resistance to avoid singular matrix
+    Resistance[R_in_p1] = 1e-3;
+    Resistance[R_in_p2] = 1e-3;
+    Resistance[R_in_p3] = 1e-3;
+  ElseIf (Operation_mode == 2 || Operation_mode == 3)
+    If(test_phase == 1)
+      // Negligible resistance for non-tested phases
+      Resistance[R_in_p1] = 1e-3;
+      Resistance[R_in_p2] = 1e12;
+      Resistance[R_in_p3] = 1e12;
+    ElseIf(test_phase == 2)
+      // Negligible resistance for non-tested phases
+      Resistance[R_in_p1] = 1e12;
+      Resistance[R_in_p2] = 1e-3;
+      Resistance[R_in_p3] = 1e12;
+    ElseIf(test_phase == 3)
+      // Negligible resistance for non-tested phases
+      Resistance[R_in_p1] = 1e12;
+      Resistance[R_in_p2] = 1e12;
+      Resistance[R_in_p3] = 1e-3;
+    EndIf
+  EndIf
+
 }
-
-  // If (Operation_mode == 1) // Normal operation
-  //   // Small resistance to avoid singular matrix
-  //   Resistance[R_in_p1] = 1e-3;
-  //   Resistance[R_in_p2] = 1e-3;
-  //   Resistance[R_in_p3] = 1e-3;
-  // ElseIf (Operation_mode == 2 || Operation_mode == 3)
-  //   If(test_phase == 1)
-  //     // Negligible resistance for non-tested phases
-  //     Resistance[R_in_p1] = 1e-3;
-  //     Resistance[R_in_p2] = 1e12;
-  //     Resistance[R_in_p3] = 1e12;
-  //   ElseIf(test_phase == 2)
-  //     // Negligible resistance for non-tested phases
-  //     Resistance[R_in_p1] = 1e12;
-  //     Resistance[R_in_p2] = 1e-3;
-  //     Resistance[R_in_p3] = 1e12;
-  //   ElseIf(test_phase == 3)
-  //     // Negligible resistance for non-tested phases
-  //     Resistance[R_in_p1] = 1e12;
-  //     Resistance[R_in_p2] = 1e12;
-  //     Resistance[R_in_p3] = 1e-3;
-  //   EndIf
-  // EndIf
-
-
 
 Constraint {
   { Name MagneticVectorPotential_2D;
