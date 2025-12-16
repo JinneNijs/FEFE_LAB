@@ -523,7 +523,7 @@ PostProcessing {
 	    }}
 
       { Name IronLosses ; Value {
-          Integral { [ Steinmetz[{d a}] * thickness_Core * core_density];
+          Integral { [ Steinmetz[{d a}] * thickness_Core];
             In Vol_Mag; Jacobian Vol; Integration Gauss_v; }
       }}
 

@@ -47,7 +47,7 @@ DefineConstant[
     Name "Parameters/Load/Power factor"}
   Type_load = {1, Choices{ 1 = "Resistive", 2= "Inductive", 3 = "Capacitive"},
     Name "Parameters/Load/Load type"} 
-  magnitude_load = {0.846,
+  magnitude_load = {0.864,
     Name "Parameters/Load/Load magnitude"} 
   winding_ratio = {3,
     Name "Parameters/Coils/Number of 17 turns per high-side coil"}

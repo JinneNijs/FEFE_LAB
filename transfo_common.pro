@@ -1,28 +1,28 @@
 //Steinmetz parameters for silicon steel
 core_density = 7650; // kg/m3 = rho
 alpha = 1; // Single frequency operation
-k_st=0.025;
+k_st=0.01;
 beta=2.1;
 
 
 // Dimensions   
 
-width_Core = .65; // Width of the core
-height_Core = .7; // Height of the core
+width_Core = .5; // Width of the core
+height_Core = .65; // Height of the core
 // Thickness along Oz (to be considered for a correct definition of voltage)
 thickness_Core = 0.35;
 sheets = 10;
 thickness_sheet = thickness_Core/sheets;
 width_Window = 0.16;
-width_Outer_Window=width_Window*0.5-0.005;
+width_Outer_Window=width_Window*0.5+0.005;
 height_Window = 0.25;
 
 width_Core_Leg = (width_Core-2*width_Window)/3.;
-height_Core_Leg = (height_Core-2*height_Window)/3.;
+height_Core_Leg = width_Core_Leg;
 r_fillet = width_Window * 0.15;  // Hoe hard de hoeken afgerond worden
 
-width_Coil = 0.05;
-height_Coil = 0.10;
+width_Coil = 0.065;
+height_Coil = 0.11;
 gap_Core_Coil = 0.01;
 
 // Gaps around the core (for air box)
