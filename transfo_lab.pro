@@ -139,13 +139,13 @@ Function {
     // Means that the total number of turns will be twice these values, because we only draw half of the coils
     
     Ns[Coil_p1_L] = 17*winding_ratio;
-    Ns[Coil_p1_H] = 100*winding_ratio;
+    Ns[Coil_p1_H] = 98*winding_ratio;
 
     Ns[Coil_p2_L] = 17*winding_ratio;
-    Ns[Coil_p2_H] = 100*winding_ratio; 
+    Ns[Coil_p2_H] = 98*winding_ratio; 
     
     Ns[Coil_p3_L] = 17*winding_ratio;
-    Ns[Coil_p3_H] = 100*winding_ratio;
+    Ns[Coil_p3_H] = 98*winding_ratio;
 
     // To be defined separately for each coil portion:
     Sc[Coil_p1_L_P] = SurfaceArea[];
