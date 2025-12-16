@@ -426,59 +426,7 @@ Constraint {
       { Region Coil_p3_H_M; Branch{10,1}; }
     }
     Case Circuit_2 {
-      // Secondary side in Y connection
-      /*
-      { Region Load_out_p1; Branch {1,2}; }
-      { Region L_out_p1; Branch {2,3}; }
-      { Region C_out_p1; Branch {3,1}; }
-      { Region R_winding_p1; Branch {3,4}; }
 
-      { Region Coil_p1_L_P; Branch {4,5} ; }
-      { Region Coil_p1_L_M; Branch {5,6} ; }
-
-      { Region Load_out_p2; Branch {1,10}; }
-      { Region L_out_p2; Branch {10,11}; }
-      { Region C_out_p2; Branch {11,1}; }
-      { Region R_winding_p2; Branch {11,6}; }
-
-      { Region Coil_p2_L_P; Branch {6,7} ; }
-      { Region Coil_p2_L_M; Branch {7,8} ; }
-
-      { Region Load_out_p3; Branch {1,12}; }
-      { Region L_out_p3; Branch {12,13}; }
-      { Region C_out_p3; Branch {13,1}; }
-      { Region R_winding_p3; Branch {13,8}; }
-
-      { Region Coil_p3_L_P; Branch {8,9} ; }
-      { Region Coil_p3_L_M; Branch {9,4} ; }
-*/
-      // Secondary side in Delta connection with RLC load
-      /*
-      { Region Load_out_p1; Branch {1,2}; }
-      { Region L_out_p1; Branch {2,3}; }
-      { Region C_out_p1; Branch {3,1}; }
-      { Region R_winding_p1; Branch {3,4}; }
-
-      { Region Coil_p1_L_P; Branch {4,5} ; }
-      { Region Coil_p1_L_M; Branch {5,6} ; }
-
-      { Region Load_out_p2; Branch {1,10}; }
-      { Region L_out_p2; Branch {10,11}; }
-      { Region C_out_p2; Branch {11,1}; }
-      { Region R_winding_p2; Branch {11,6}; }
-
-      { Region Coil_p2_L_P; Branch {6,7} ; }
-      { Region Coil_p2_L_M; Branch {7,8} ; }
-
-      { Region Load_out_p3; Branch {1,12}; }
-      { Region L_out_p3; Branch {12,13}; }
-      { Region C_out_p3; Branch {13,1}; }
-      { Region R_winding_p3; Branch {13,8}; }
-
-      { Region Coil_p3_L_P; Branch {8,9} ; }
-      { Region Coil_p3_L_M; Branch {9,4} ;} 
-      */
-      // Secondary side in Delta connection with resistive load only
       // Secondary side in Delta connection
       { Region Load_out_p1; Branch {1,2}; }
       { Region Coil_p1_L_P; Branch {2,3} ; }
