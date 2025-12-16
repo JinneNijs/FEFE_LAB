@@ -13,9 +13,9 @@ height_Core = .65; // Height of the core
 thickness_Core = 0.3;
 sheets = 20;
 thickness_sheet = thickness_Core/sheets;
-width_Window = 0.14;
-width_Outer_Window=width_Window*0.5-0.007;
-height_Window = 0.21;
+width_Window = 0.13;
+width_Outer_Window=width_Window*0.47;
+height_Window = 0.22;
 
 width_Core_Leg = (width_Core-2*width_Window)/3.;
 height_Core_Leg = width_Core_Leg;
@@ -23,7 +23,9 @@ r_fillet = width_Window * 0.15;  // Hoe hard de hoeken afgerond worden
 
 width_Coil = 0.05;
 height_Coil = 0.08;
-gap_Core_Coil = 0.0067;
+gap_Core_Coil = 0.005;
+gap_Core_Coil_X = gap_Core_Coil;
+gap_Core_Coil_Y = gap_Core_Coil*3.5;
 
 // Gaps around the core (for air box)
 gap_Core_Box_X = 0.5;
