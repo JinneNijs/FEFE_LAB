@@ -5,7 +5,7 @@ k_st=0.025;
 beta=2.1;
 
 
-// Dimensions
+// Dimensions   
 
 width_Core = .65; // Width of the core
 height_Core = .7; // Height of the core
