@@ -183,14 +183,77 @@ l_Core_In_4[]+=newl; Line(newl)   = {p_w4_br_2, p_w4_bl_1};
 l_Core_In_4[]+=newl; Circle(newl) = {p_w4_bl_1, p_w4_bl_c, p_w4_bl_2};
 
 
+// // ------------------------------------------------------------------
+// // BUITENKANT
+// // ------------------------------------------------------------------
+// l_Core_Out[]={};
+// l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_1,p_Leg_1_2};
+// l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_2,p_Leg_5_20};
+// l_Core_Out[]+=newl; Line(newl) = {p_Leg_5_20,p_Leg_5_19};
+// l_Core_Out[]+=newl; Line(newl) = {p_Leg_5_19,p_Leg_1_1};
+
+// // maak de oppervlakte van de kern
+// // 1st lijnen toevoegen aan curve loop
+// // 2nd oppervlakte maken
+// ll_Core_In_1=newll; Curve Loop(newll) = {l_Core_In_1[]};
+// ll_Core_In_2=newll; Curve Loop(newll) = {l_Core_In_2[]};
+// ll_Core_In_3=newll; Curve Loop(newll) = {l_Core_In_3[]};
+// ll_Core_In_4=newll; Curve Loop(newll) = {l_Core_In_4[]};
+// ll_Core_Out=newll; Curve Loop(newll) = {l_Core_Out[]};
+// s_Core=news; Plane Surface(news) = {ll_Core_Out,ll_Core_In_1,ll_Core_In_2,ll_Core_In_3,ll_Core_In_4};
+// Physical Surface("CORE", CORE) = {s_Core};
 // ------------------------------------------------------------------
-// BUITENKANT
+// BUITENKANT (Met afgeronde hoeken)
 // ------------------------------------------------------------------
+
+// We halen de coördinaten van de uiterste hoeken op uit de bestaande punten
+// (Linksonder, Linksboven, Rechtsboven, Rechtsonder)
+pos_BL[] = Point{p_Leg_1_1}; 
+pos_TL[] = Point{p_Leg_1_2}; 
+pos_TR[] = Point{p_Leg_5_20}; 
+pos_BR[] = Point{p_Leg_5_19}; 
+
+x_L_out = pos_BL[0]; x_R_out = pos_BR[0];
+y_B_out = pos_BL[1]; y_T_out = pos_TL[1];
+
+// --- Linksonder (BL) ---
+p_out_bl_1 = newp; Point(newp) = {x_L_out + r_fillet, y_B_out, 0, c_Core};
+p_out_bl_c = newp; Point(newp) = {x_L_out + r_fillet, y_B_out + r_fillet, 0, c_Core}; // Center
+p_out_bl_2 = newp; Point(newp) = {x_L_out, y_B_out + r_fillet, 0, c_Core};
+
+// --- Linksboven (TL) ---
+p_out_tl_1 = newp; Point(newp) = {x_L_out, y_T_out - r_fillet, 0, c_Core};
+p_out_tl_c = newp; Point(newp) = {x_L_out + r_fillet, y_T_out - r_fillet, 0, c_Core}; // Center
+p_out_tl_2 = newp; Point(newp) = {x_L_out + r_fillet, y_T_out, 0, c_Core};
+
+// --- Rechtsboven (TR) ---
+p_out_tr_1 = newp; Point(newp) = {x_R_out - r_fillet, y_T_out, 0, c_Core};
+p_out_tr_c = newp; Point(newp) = {x_R_out - r_fillet, y_T_out - r_fillet, 0, c_Core}; // Center
+p_out_tr_2 = newp; Point(newp) = {x_R_out, y_T_out - r_fillet, 0, c_Core};
+
+// --- Rechtsonder (BR) ---
+p_out_br_1 = newp; Point(newp) = {x_R_out, y_B_out + r_fillet, 0, c_Core};
+p_out_br_c = newp; Point(newp) = {x_R_out - r_fillet, y_B_out + r_fillet, 0, c_Core}; // Center
+p_out_br_2 = newp; Point(newp) = {x_R_out - r_fillet, y_B_out, 0, c_Core};
+
+// De loop maken (Linksonder -> Boven -> Rechts -> Onder -> Terug)
 l_Core_Out[]={};
-l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_1,p_Leg_1_2};
-l_Core_Out[]+=newl; Line(newl) = {p_Leg_1_2,p_Leg_5_20};
-l_Core_Out[]+=newl; Line(newl) = {p_Leg_5_20,p_Leg_5_19};
-l_Core_Out[]+=newl; Line(newl) = {p_Leg_5_19,p_Leg_1_1};
+
+// Links omhoog + Bocht LB
+l_Core_Out[]+=newl; Line(newl)   = {p_out_bl_2, p_out_tl_1};
+l_Core_Out[]+=newl; Circle(newl) = {p_out_tl_1, p_out_tl_c, p_out_tl_2};
+
+// Boven naar rechts + Bocht RB
+l_Core_Out[]+=newl; Line(newl)   = {p_out_tl_2, p_out_tr_1};
+l_Core_Out[]+=newl; Circle(newl) = {p_out_tr_1, p_out_tr_c, p_out_tr_2};
+
+// Rechts omlaag + Bocht RO
+l_Core_Out[]+=newl; Line(newl)   = {p_out_tr_2, p_out_br_1};
+l_Core_Out[]+=newl; Circle(newl) = {p_out_br_1, p_out_br_c, p_out_br_2};
+
+// Onder naar links + Bocht LO
+l_Core_Out[]+=newl; Line(newl)   = {p_out_br_2, p_out_bl_1};
+l_Core_Out[]+=newl; Circle(newl) = {p_out_bl_1, p_out_bl_c, p_out_bl_2};
 
 // maak de oppervlakte van de kern
 // 1st lijnen toevoegen aan curve loop
@@ -203,6 +266,9 @@ ll_Core_Out=newll; Curve Loop(newll) = {l_Core_Out[]};
 s_Core=news; Plane Surface(news) = {ll_Core_Out,ll_Core_In_1,ll_Core_In_2,ll_Core_In_3,ll_Core_In_4};
 Physical Surface("CORE", CORE) = {s_Core};
 
+// ------------------------------------------------------------------
+// COILS DEFINITIE
+// ------------------------------------------------------------------
 
 // Coil PHASE 1 HIGH, MIN
 x_[]=Point{p_Leg_2_6};
