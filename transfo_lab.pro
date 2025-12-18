@@ -499,9 +499,9 @@ Include "Lib_Magnetodynamics2D_av_Cir.pro";
 PostOperation {
   { Name dyn; NameOfPostProcessing Magnetodynamics2D_av;
     Operation {
-      //Print[ j, OnElementsOf Region[{Vol_C_Mag, Vol_S_Mag}], Format Gmsh, File "j.pos" ];
+      Print[ j, OnElementsOf Region[{Vol_C_Mag, Vol_S_Mag}], Format Gmsh, File "j.pos" ];
       Print[ b, OnElementsOf Vol_Mag, Format Gmsh, File "b.pos" ];
-     //Print[ az, OnElementsOf Vol_Mag, Format Gmsh, File "az.pos" ];
+      Print[ az, OnElementsOf Vol_Mag, Format Gmsh, File "az.pos" ];
       Print[ norm_of_b, OnElementsOf Vol_Mag, Format Gmsh, File "norm_of_b.pos" ];
 
       If (Flag_FrequencyDomain)
