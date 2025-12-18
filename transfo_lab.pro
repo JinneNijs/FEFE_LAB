@@ -473,7 +473,6 @@ PostOperation {
         Print[ I, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt"];
 
         // In text file UI.txt: voltage and current of the secondary coil (from
-<<<<<<< HEAD
         // R_out)
         Echo[ "----Load_phase_1----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt" ];
@@ -482,13 +481,10 @@ PostOperation {
         Echo[ "----Load_phase_2----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
-<<<<<<< HEAD
-        Echo[ "----Load_phase_3----", Format Table, File > "UI.txt" ];
-=======
         Print[ norm_of_U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
         Print[ norm_of_I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
-        Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
->>>>>>> e84a5b078b70d7d58e6bae6b62673a2b0866a87b
+
+        Echo[ "----Load_phase_3----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
