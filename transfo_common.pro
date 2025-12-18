@@ -11,7 +11,7 @@ width_Core = .6; // Width of the core
 height_Core = .65; // Height of the core
 // Thickness along Oz (to be considered for a correct definition of voltage)
 thickness_Core = 0.3;
-sheets = 20;
+sheets = 200;
 thickness_sheet = thickness_Core/sheets;
 width_Window = 0.13;
 width_Outer_Window=width_Window*0.47;

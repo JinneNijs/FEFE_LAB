@@ -32,7 +32,7 @@ DefineConstant[
   Flag_FrequencyDomain = {1, Choices{0, 1},
     Name "Parameters/Frequency-domain?"}
     // Relative permeability of the core material
-  mur_Core = {1000, Min 1, Max 10000, Step 1,
+  mur_Core = {5000, Min 1, Max 10000, Step 1,
     Name "Parameters/Core relative permeability"}
   Input_voltage = {2400,
     Name "Parameters/Input RMS voltage per phase"}
@@ -51,6 +51,8 @@ DefineConstant[
     Name "Parameters/Load/Load magnitude"} 
   winding_ratio = {3,
     Name "Parameters/Coils/Number of 17 turns per high-side coil"}
+  coil_conductivity = {5.96e7,
+    Name "Parameters/Coils/Coil conductivity (S/m)"}
 ];
   
 Group {
@@ -110,8 +112,8 @@ Function {
   mu[Coils] = 1 * mu0;
   nu[] = 1 / mu[];
 
-  sigma[Coils] = 5.96e7; // copper conductivity in S/m
-  sigma[Core] = 1e4; // silicon steel conductivity in S/m
+  sigma[Coils] = coil_conductivity; // copper conductivity is 5.96e7 in S/m
+  sigma[Core] = 2.17e6; // silicon steel conductivity in S/m
 
   // To be defined separately for each coil portion, to fix the convention of
   // positive current (1: along Oz, -1: along -Oz)
@@ -269,6 +271,7 @@ Function {
       val_E_in_p2 = 0;
       val_E_in_p3 = shortcut_voltage;
     EndIf
+  
   ElseIf (Operation_mode == 3) // Open-circuit test
     If (test_phase == 1)
       val_E_in_p1 = Input_voltage;
@@ -310,7 +313,7 @@ Function {
 
   ElseIf(Operation_mode == 2) // Short-circuit test
     If(Type_load == 1)
-      Resistance[Load_out_p1] = 0;
+      Resistance[Load_out_p1] = 0; // very low value for short-circuit
       Resistance[Load_out_p2] = 0;
       Resistance[Load_out_p3] = 0;
     ElseIf(Type_load == 2)
@@ -461,13 +464,15 @@ PostOperation {
         Echo[ "E_in_p2", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_U, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_I, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
 
         Echo[ "E_in_p3", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt"];
 
         // In text file UI.txt: voltage and current of the secondary coil (from
-        // R_out)
+        // Load_out)
         Echo[ "Load_phase_1", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt"];
@@ -475,6 +480,8 @@ PostOperation {
         Echo[ "load_phase_2", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
         Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt"];
