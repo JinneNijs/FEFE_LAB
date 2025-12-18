@@ -489,6 +489,7 @@ PostProcessing {
           Term { [ Norm[{d a}] ]; In Vol_Mag; Jacobian Vol; }
         }
       }
+
       { Name h; Value {
           Term { [ nu[] * {d a} ]; In Vol_L_Mag; Jacobian Vol; }
           Term { [ nu[{d a}] * {d a} ]; In Vol_NL_Mag; Jacobian Vol; }
@@ -540,6 +541,22 @@ PostProcessing {
           Term { [ {Us} ]; In Vol_S_Mag; }
           If(Flag_CircuitCoupling)
             Term { [ {Uz} ]; In Domain_Cir; }
+          EndIf
+        }
+      }
+      { Name norm_of_U; Value {
+          Term { [ Norm[{U}] ]; In Vol_C_Mag; }
+          Term { [ Norm[{Us}] ]; In Vol_S_Mag; }
+          If(Flag_CircuitCoupling)
+            Term { [ Norm[{Uz}] ]; In Domain_Cir; }
+          EndIf
+        }
+      }
+      { Name norm_of_I; Value {
+          Term { [ Norm[{I}] ]; In Vol_C_Mag; }
+          Term { [ Norm[{Is}] ]; In Vol_S_Mag; }
+          If(Flag_CircuitCoupling)
+            Term { [ Norm[{Iz}] ]; In Domain_Cir; }
           EndIf
         }
       }

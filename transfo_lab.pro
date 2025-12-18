@@ -51,6 +51,8 @@ DefineConstant[
     Name "Parameters/Load/Load magnitude"} 
   winding_ratio = {3,
     Name "Parameters/Coils/Number of 17 turns per high-side coil"}
+  coil_conductivity = {5.96e7,
+    Name "Parameters/Coils/Coil conductivity (S/m)"}
 ];
   
 Group {
@@ -110,8 +112,8 @@ Function {
   mu[Coils] = 1 * mu0;
   nu[] = 1 / mu[];
 
-  sigma[Coils] = 5.96e7; // copper conductivity in S/m
-  sigma[Core] = 1e4; // silicon steel conductivity in S/m
+  sigma[Coils] = coil_conductivity; // copper conductivity is 5.96e7 in S/m
+  sigma[Core] = 2.17e6; // silicon steel conductivity in S/m
 
   // To be defined separately for each coil portion, to fix the convention of
   // positive current (1: along Oz, -1: along -Oz)
@@ -269,6 +271,7 @@ Function {
       val_E_in_p2 = 0;
       val_E_in_p3 = shortcut_voltage;
     EndIf
+  
   ElseIf (Operation_mode == 3) // Open-circuit test
     If (test_phase == 1)
       val_E_in_p1 = Input_voltage;
@@ -310,7 +313,7 @@ Function {
 
   ElseIf(Operation_mode == 2) // Short-circuit test
     If(Type_load == 1)
-      Resistance[Load_out_p1] = 0;
+      Resistance[Load_out_p1] = 0; // very low value for short-circuit
       Resistance[Load_out_p2] = 0;
       Resistance[Load_out_p3] = 0;
     ElseIf(Type_load == 2)
@@ -426,59 +429,7 @@ Constraint {
       { Region Coil_p3_H_M; Branch{10,1}; }
     }
     Case Circuit_2 {
-      // Secondary side in Y connection
-      /*
-      { Region Load_out_p1; Branch {1,2}; }
-      { Region L_out_p1; Branch {2,3}; }
-      { Region C_out_p1; Branch {3,1}; }
-      { Region R_winding_p1; Branch {3,4}; }
 
-      { Region Coil_p1_L_P; Branch {4,5} ; }
-      { Region Coil_p1_L_M; Branch {5,6} ; }
-
-      { Region Load_out_p2; Branch {1,10}; }
-      { Region L_out_p2; Branch {10,11}; }
-      { Region C_out_p2; Branch {11,1}; }
-      { Region R_winding_p2; Branch {11,6}; }
-
-      { Region Coil_p2_L_P; Branch {6,7} ; }
-      { Region Coil_p2_L_M; Branch {7,8} ; }
-
-      { Region Load_out_p3; Branch {1,12}; }
-      { Region L_out_p3; Branch {12,13}; }
-      { Region C_out_p3; Branch {13,1}; }
-      { Region R_winding_p3; Branch {13,8}; }
-
-      { Region Coil_p3_L_P; Branch {8,9} ; }
-      { Region Coil_p3_L_M; Branch {9,4} ; }
-*/
-      // Secondary side in Delta connection with RLC load
-      /*
-      { Region Load_out_p1; Branch {1,2}; }
-      { Region L_out_p1; Branch {2,3}; }
-      { Region C_out_p1; Branch {3,1}; }
-      { Region R_winding_p1; Branch {3,4}; }
-
-      { Region Coil_p1_L_P; Branch {4,5} ; }
-      { Region Coil_p1_L_M; Branch {5,6} ; }
-
-      { Region Load_out_p2; Branch {1,10}; }
-      { Region L_out_p2; Branch {10,11}; }
-      { Region C_out_p2; Branch {11,1}; }
-      { Region R_winding_p2; Branch {11,6}; }
-
-      { Region Coil_p2_L_P; Branch {6,7} ; }
-      { Region Coil_p2_L_M; Branch {7,8} ; }
-
-      { Region Load_out_p3; Branch {1,12}; }
-      { Region L_out_p3; Branch {12,13}; }
-      { Region C_out_p3; Branch {13,1}; }
-      { Region R_winding_p3; Branch {13,8}; }
-
-      { Region Coil_p3_L_P; Branch {8,9} ; }
-      { Region Coil_p3_L_M; Branch {9,4} ;} 
-      */
-      // Secondary side in Delta connection with resistive load only
       // Secondary side in Delta connection
       { Region Load_out_p1; Branch {1,2}; }
       { Region Coil_p1_L_P; Branch {2,3} ; }
@@ -514,12 +465,15 @@ PostOperation {
         Echo[ "----E_in_p2---- ", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_U, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_I, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
 
         Echo[ "----E_in_p3----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt"];
 
         // In text file UI.txt: voltage and current of the secondary coil (from
+<<<<<<< HEAD
         // R_out)
         Echo[ "----Load_phase_1----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt" ];
@@ -528,7 +482,13 @@ PostOperation {
         Echo[ "----Load_phase_2----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
+<<<<<<< HEAD
         Echo[ "----Load_phase_3----", Format Table, File > "UI.txt" ];
+=======
+        Print[ norm_of_U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
+        Print[ norm_of_I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
+        Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
+>>>>>>> e84a5b078b70d7d58e6bae6b62673a2b0866a87b
         Print[ U, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
