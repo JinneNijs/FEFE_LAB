@@ -1,8 +1,8 @@
 //Steinmetz parameters for silicon steel
 core_density = 7650; // kg/m3 = rho
 alpha = 1; // Single frequency operation
-k_st=0.01;
-beta=2.1;
+k_st=0.11; // W/kg/(T^beta*Hz^alpha)
+beta=1.85;
 
 
 // Dimensions   
@@ -10,9 +10,7 @@ beta=2.1;
 width_Core = .6; // Width of the core
 height_Core = .65; // Height of the core
 // Thickness along Oz (to be considered for a correct definition of voltage)
-thickness_Core = 0.3;
-sheets = 200;
-thickness_sheet = thickness_Core/sheets;
+thickness_Core = 0.3; // m
 width_Window = 0.13;
 width_Outer_Window=width_Window*0.47;
 height_Window = 0.22;
