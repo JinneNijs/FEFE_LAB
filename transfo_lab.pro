@@ -488,9 +488,9 @@ Constraint {
       { Region Coil_p2_L_P; Branch {4,5} ; }
       { Region Coil_p2_L_M; Branch {5,6} ; }
 
-      { Region Load_out_p3;   Branch {1,6} ; }
+      { Region Load_out_p3;  Branch {1,6} ; }
       { Region Coil_p3_L_P; Branch {6,7} ; }
-      { Region Coil_p3_L_M; Branch {7,1} ; } 
+      { Region Coil_p3_L_M; Branch {7,2} ; } 
 }
 }
 }
@@ -499,42 +499,43 @@ Include "Lib_Magnetodynamics2D_av_Cir.pro";
 PostOperation {
   { Name dyn; NameOfPostProcessing Magnetodynamics2D_av;
     Operation {
-      Print[ j, OnElementsOf Region[{Vol_C_Mag, Vol_S_Mag}], Format Gmsh, File "j.pos" ];
+      //Print[ j, OnElementsOf Region[{Vol_C_Mag, Vol_S_Mag}], Format Gmsh, File "j.pos" ];
       Print[ b, OnElementsOf Vol_Mag, Format Gmsh, File "b.pos" ];
-      Print[ az, OnElementsOf Vol_Mag, Format Gmsh, File "az.pos" ];
-      
+     //Print[ az, OnElementsOf Vol_Mag, Format Gmsh, File "az.pos" ];
+      Print[ norm_of_b, OnElementsOf Vol_Mag, Format Gmsh, File "norm_of_b.pos" ];
+
       If (Flag_FrequencyDomain)
         // In text file UI.txt: voltage and current of the primary coil (from
         // E_in) (real and imaginary parts!)
-        Echo[ "E_in_p1", Format Table, File "UI.txt" ];
+        Echo[ "----E_in_p1----", Format Table, File "UI.txt" ];
         Print[ U, OnRegion E_in_p1, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p1, Format FrequencyTable, File > "UI.txt"];
 
-        Echo[ "E_in_p2", Format Table, File > "UI.txt" ];
+        Echo[ "----E_in_p2---- ", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p2, Format FrequencyTable, File > "UI.txt"];
 
-        Echo[ "E_in_p3", Format Table, File > "UI.txt" ];
+        Echo[ "----E_in_p3----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion E_in_p3, Format FrequencyTable, File > "UI.txt"];
 
         // In text file UI.txt: voltage and current of the secondary coil (from
         // R_out)
-        Echo[ "Load_phase_1", Format Table, File > "UI.txt" ];
+        Echo[ "----Load_phase_1----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p1, Format FrequencyTable, File > "UI.txt"];
 
-        Echo[ "load_phase_2", Format Table, File > "UI.txt" ];
+        Echo[ "----Load_phase_2----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p2, Format FrequencyTable, File > "UI.txt"];
-        Echo[ "Load_phase_3", Format Table, File > "UI.txt" ];
+        Echo[ "----Load_phase_3----", Format Table, File > "UI.txt" ];
         Print[ U, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt" ];
         Print[ I, OnRegion Load_out_p3, Format FrequencyTable, File > "UI.txt"];
       EndIf
 
       Print[JouleLosses[Coils], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Winding Losses"], Color "LightGreen" ];
       Print[IronLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Hysteresis Losses (Core)"], Color "LightBlue" ];
-      Print[EddyLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightYellow" ];
+      //Print[EddyLosses[Core], OnGlobal, Format Table, Units "W", SendToServer StrCat[po,"00Eddy Curent Losses"], Color "LightYellow" ];
     }
   }
 }
