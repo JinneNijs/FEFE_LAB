@@ -57,7 +57,7 @@ DefineConstant[
   
 Group {
   // Physical regions:
-  Air = Region[{AIR_WINDOW_1,AIR_WINDOW_2,AIR_WINDOW_3,AIR_WINDOW_4, AIR_EXT}];
+  Air = Region[{AIR_WINDOW_1,AIR_WINDOW_3,AIR_WINDOW_4, AIR_EXT}];
   Sur_Air_Ext = Region[SUR_AIR_EXT]; // exterior boundary
 
   Core = Region[CORE]; // magnetic core of the transformer, assumed non-conducting

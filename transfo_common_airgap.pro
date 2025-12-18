@@ -3,7 +3,15 @@ core_density = 7650; // kg/m3 = rho
 alpha = 1; // Single frequency operation
 k_st=0.01;
 beta=2.1;
+//Dimensions airgap
 
+DefineConstant[
+    po = "{Output/",
+    airgap_size = {0.005,Min 0.005, Max 0.18, Step 0.001,
+      Name "Parameters/Airgap size (m)"} 
+];  
+
+airgap_Hbase=0.0; //height of the airgap base from the bottom of the core in m
 
 // Dimensions   
 

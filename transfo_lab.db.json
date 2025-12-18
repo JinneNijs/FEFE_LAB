@@ -1,6 +1,6 @@
 { "onelab":{
   "creator":"Gmsh",
-  "date":"Thu Dec 18 09:42:21 2025",
+  "date":"Thu Dec 18 10:48:17 2025",
   "version":"1.3",
   "parameters":[
     { "type":"number", "name":"0Metamodel/Loop", "changedValue":31, "visible":false, "readOnly":false, "values":[ 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
@@ -85,7 +85,7 @@
     { "type":"number", "name":"Parameters/Coils/01Conductor type", "changedValue":31, "visible":true, "readOnly":false, "attributes":{ "Highlight":"Blue" }, "clients":{ "GetDP":0 }, "values":[ 2 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 2, 2 ], "valueLabels":{ "Coil":2 } },
     { "type":"number", "name":"Parameters/Coils/Coil conductivity (S/m)", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 59600000 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
     { "type":"number", "name":"Parameters/Coils/Number of 17 turns per high-side coil", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 3 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
-    { "type":"number", "name":"Parameters/Core relative permeability", "changedValue":31, "visible":true, "readOnly":false, "attributes":{ "Graph":"000000000000000000000000000000000000", "Loop":"" }, "clients":{ "GetDP":0 }, "values":[ 36000 ], "min":1, "max":10000, "step":1, "index":-1 },
+    { "type":"number", "name":"Parameters/Core relative permeability", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 5000 ], "min":1, "max":10000, "step":1, "index":-1 },
     { "type":"number", "name":"Parameters/Frequency", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 50 ], "min":0, "max":1000, "step":1, "index":-1 },
     { "type":"number", "name":"Parameters/Frequency-domain?", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 1 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 0, 1 ] },
     { "type":"number", "name":"Parameters/Input RMS voltage per phase", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 2400 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
@@ -95,8 +95,8 @@
     { "type":"number", "name":"Parameters/Test/Operation mode", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 1 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 1, 2, 3 ], "valueLabels":{ "Normal":1, "Short-circuit test":2, "Open-circuit test":3 } },
     { "type":"number", "name":"Parameters/Test/Short-circuit voltage", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 100 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1 },
     { "type":"number", "name":"Parameters/Test/Tested phase", "changedValue":31, "visible":true, "readOnly":false, "clients":{ "GetDP":0 }, "values":[ 1 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 1, 2, 3 ], "valueLabels":{ "Phase 1":1, "Phase 2":2, "Phase 3":3 } },
-    { "type":"number", "name":"{Output/00Eddy Curent Losses", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "Closed":"0", "Highlight":"LightYellow", "Units":"W" }, "clients":{ "GetDP":0 }, "values":[ 924.1672600876955, 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 923.105039269185, 0, 923.7021292074387, 0, 923.9013929643146, 0, 924.0010687344543, 0, 924.0608882493676, 0, 924.1007737830536, 0, 924.129266319298, 0, 924.1506372908528, 0, 924.1672600876955, 0 ] },
-    { "type":"number", "name":"{Output/00Hysteresis Losses (Core)", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "Closed":"0", "Highlight":"LightBlue", "Units":"W" }, "clients":{ "GetDP":0 }, "values":[ 83.55288192416528, 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 83.45258561906452, 0, 83.50896248587186, 0, 83.52777751120414, 0, 83.53718929278394, 0, 83.54283772852406, 0, 83.54660392197754, 0, 83.54929433930566, 0, 83.55131230488445, 0, 83.55288192416528, 0 ] },
-    { "type":"number", "name":"{Output/00Winding Losses", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "Closed":"0", "Highlight":"LightGreen", "Units":"W" }, "clients":{ "GetDP":0 }, "values":[ 1645.43182086311, 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 1645.08109426465, 0, 1645.275537027675, 0, 1645.341974236306, 0, 1645.375497426022, 0, 1645.395708843297, 0, 1645.409223756226, 0, 1645.418897170851, 0, 1645.426163118575, 0, 1645.43182086311, 0 ] }
+    { "type":"number", "name":"{Output/00Eddy Curent Losses", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "Closed":"0", "Highlight":"LightYellow", "Units":"W" }, "clients":{ "GetDP":0 }, "values":[ 961.4145428594727, 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 961.4145428594727, 0 ] },
+    { "type":"number", "name":"{Output/00Hysteresis Losses (Core)", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "Closed":"0", "Highlight":"LightBlue", "Units":"W" }, "clients":{ "GetDP":0 }, "values":[ 87.09269145927894, 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 87.09269145927894, 0 ] },
+    { "type":"number", "name":"{Output/00Winding Losses", "changedValue":31, "visible":true, "readOnly":true, "attributes":{ "Closed":"0", "Highlight":"LightGreen", "Units":"W" }, "clients":{ "GetDP":0 }, "values":[ 1712.98944746813, 0 ], "min":-1e+200, "max":1e+200, "step":0, "index":-1, "choices":[ 1712.98944746813, 0 ] }
   ] }
 }

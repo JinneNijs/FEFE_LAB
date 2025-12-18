@@ -1,4 +1,4 @@
-Include "transfo_common.pro";
+Include "transfo_common_airgap.pro";
 
 // ==============================================================================
 // 5-LEG CORE - GESTART VANAF OORSPRONG (0,0,0) - MET AFGERONDE HOEKEN
@@ -47,6 +47,10 @@ p_Leg_5_18=newp; Point(newp) = {4*width_Core_Leg + 2*width_Window + 2*width_Oute
 p_Leg_5_20=newp; Point(newp) = {5*width_Core_Leg + 2*width_Window + 2*width_Outer_Window, 2*height_Core_Leg+height_Window, 0, c_Core};
 
 
+
+
+
+
 // ------------------------------------------------------------------
 // LIJNEN MAKEN (Hier passen we de fillets toe)
 // ------------------------------------------------------------------
@@ -89,6 +93,8 @@ l_Core_In_1[]+=newl; Line(newl)   = {p_w1_br_2, p_w1_bl_1};       // Onder naar 
 l_Core_In_1[]+=newl; Circle(newl) = {p_w1_bl_1, p_w1_bl_c, p_w1_bl_2}; // Bocht LO
 
 
+//Window 2 en 3 vervangen door 1 groot window met airgap ertussen
+
 // === WINDOW 2 ===
 // Coordinaten ophalen: p_Leg_2_7 (BL), p_Leg_2_8 (TL), p_Leg_3_10 (TR), p_Leg_3_9 (BR)
 x_L = Point{p_Leg_2_7}; 
@@ -110,15 +116,9 @@ p_w2_br_1 = newp; Point(newp) = {x_R[0], y_B[1] + r_fillet, 0, c_Core};
 p_w2_br_c = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1] + r_fillet, 0, c_Core};
 p_w2_br_2 = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1], 0, c_Core};
 
-l_Core_In_2[]={};
-l_Core_In_2[]+=newl; Line(newl)   = {p_w2_bl_2, p_w2_tl_1};
-l_Core_In_2[]+=newl; Circle(newl) = {p_w2_tl_1, p_w2_tl_c, p_w2_tl_2};
-l_Core_In_2[]+=newl; Line(newl)   = {p_w2_tl_2, p_w2_tr_1};
-l_Core_In_2[]+=newl; Circle(newl) = {p_w2_tr_1, p_w2_tr_c, p_w2_tr_2};
-l_Core_In_2[]+=newl; Line(newl)   = {p_w2_tr_2, p_w2_br_1};
-l_Core_In_2[]+=newl; Circle(newl) = {p_w2_br_1, p_w2_br_c, p_w2_br_2};
-l_Core_In_2[]+=newl; Line(newl)   = {p_w2_br_2, p_w2_bl_1};
-l_Core_In_2[]+=newl; Circle(newl) = {p_w2_bl_1, p_w2_bl_c, p_w2_bl_2};
+
+
+
 
 
 // === WINDOW 3 ===
@@ -141,8 +141,30 @@ p_w3_tr_2 = newp; Point(newp) = {x_R[0], y_T[1] - r_fillet, 0, c_Core};
 p_w3_br_1 = newp; Point(newp) = {x_R[0], y_B[1] + r_fillet, 0, c_Core};
 p_w3_br_c = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1] + r_fillet, 0, c_Core};
 p_w3_br_2 = newp; Point(newp) = {x_R[0] - r_fillet, y_B[1], 0, c_Core};
+
+ref_R = Point{p_w3_bl_2};
+ref_L = Point{p_w2_br_1};
+p_Leg_3_airgap_R_0=newp; Point(newp) = {ref_R[0],ref_R[1]+airgap_Hbase,0, c_Core};
+p_Leg_3_airgap_R_1=newp; Point(newp) = {ref_R[0],ref_R[1]+airgap_Hbase+airgap_size,0, c_Core};
+p_Leg_2_airgap_L_0=newp; Point(newp) = {ref_L[0],ref_L[1]+airgap_Hbase,0, c_Core};
+p_Leg_2_airgap_L_1=newp; Point(newp) = {ref_L[0],ref_L[1]+airgap_Hbase+airgap_size,0, c_Core};
+
+
 l_Core_In_3[]={};
-l_Core_In_3[]+=newl; Line(newl)   = {p_w3_bl_2, p_w3_tl_1};
+//l_Core_In_3[]+=newl; Line(newl)   = {p_w3_bl_2, p_w3_tl_1};// hier onderbreken
+l_Core_In_3[]+=newl; Line(newl)   = {p_w3_bl_2, p_Leg_3_airgap_R_0};
+l_Core_In_3[]+=newl; Line(newl)   = {p_Leg_3_airgap_R_0, p_Leg_2_airgap_L_0};
+l_Core_In_3[]+=newl; Line(newl)   = {p_Leg_2_airgap_L_0, p_w2_br_1}; // toevoegen van window 2 tot p_w2_tr_2
+l_Core_In_3[]+=newl; Circle(newl) = {p_w2_br_1, p_w2_br_c, p_w2_br_2};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w2_br_2, p_w2_bl_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w2_bl_1, p_w2_bl_c, p_w2_bl_2};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w2_bl_2, p_w2_tl_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w2_tl_1, p_w2_tl_c, p_w2_tl_2};
+l_Core_In_3[]+=newl; Line(newl)   = {p_w2_tl_2, p_w2_tr_1};
+l_Core_In_3[]+=newl; Circle(newl) = {p_w2_tr_1, p_w2_tr_c, p_w2_tr_2};// hier onderbreken
+l_Core_In_3[]+=newl; Line(newl)   = {p_w2_tr_2, p_Leg_2_airgap_L_1};
+l_Core_In_3[]+=newl; Line(newl)   = {p_Leg_2_airgap_L_1, p_Leg_3_airgap_R_1};
+l_Core_In_3[]+=newl; Line(newl)   = {p_Leg_3_airgap_R_1, p_w3_tl_1}; // toevoegen van window 3 vanaf p_w3_tl_1
 l_Core_In_3[]+=newl; Circle(newl) = {p_w3_tl_1, p_w3_tl_c, p_w3_tl_2};
 l_Core_In_3[]+=newl; Line(newl)   = {p_w3_tl_2, p_w3_tr_1};
 l_Core_In_3[]+=newl; Circle(newl) = {p_w3_tr_1, p_w3_tr_c, p_w3_tr_2};
@@ -259,11 +281,11 @@ l_Core_Out[]+=newl; Circle(newl) = {p_out_bl_1, p_out_bl_c, p_out_bl_2};
 // 1st lijnen toevoegen aan curve loop
 // 2nd oppervlakte maken
 ll_Core_In_1=newll; Curve Loop(newll) = {l_Core_In_1[]};
-ll_Core_In_2=newll; Curve Loop(newll) = {l_Core_In_2[]};
+//ll_Core_In_2=newll; Curve Loop(newll) = {l_Core_In_2[]};
 ll_Core_In_3=newll; Curve Loop(newll) = {l_Core_In_3[]};
 ll_Core_In_4=newll; Curve Loop(newll) = {l_Core_In_4[]};
 ll_Core_Out=newll; Curve Loop(newll) = {l_Core_Out[]};
-s_Core=news; Plane Surface(news) = {ll_Core_Out,ll_Core_In_1,ll_Core_In_2,ll_Core_In_3,ll_Core_In_4};
+s_Core=news; Plane Surface(news) = {ll_Core_Out,ll_Core_In_1,ll_Core_In_3,ll_Core_In_4}; // ll_Core_In_2 weggelaten
 Physical Surface("CORE", CORE) = {s_Core};
 
 // ------------------------------------------------------------------
@@ -464,11 +486,11 @@ s_Air_Window_1=news; Plane Surface(news) = {ll_Core_In_1,ll_Coil_p1_L_min,ll_Coi
 Physical Surface("AIR_WINDOW_1", AIR_WINDOW_1) = {s_Air_Window_1};
 
 // AIR WINDOW 2
-s_Air_Window_2=news; Plane Surface(news) = {ll_Core_In_2,ll_Coil_p1_L_pos,ll_Coil_p1_H_pos,ll_Coil_p2_H_min,ll_Coil_p2_L_min};
-Physical Surface("AIR_WINDOW_2", AIR_WINDOW_2) = {s_Air_Window_2};
+//s_Air_Window_2=news; Plane Surface(news) = {ll_Core_In_2,ll_Coil_p1_L_pos,ll_Coil_p1_H_pos,ll_Coil_p2_H_min,ll_Coil_p2_L_min};
+//Physical Surface("AIR_WINDOW_2", AIR_WINDOW_2) = {s_Air_Window_2};
 
 // AIR WINDOW 3
-s_Air_Window_3=news; Plane Surface(news) = {ll_Core_In_3,ll_Coil_p2_H_pos,ll_Coil_p2_L_pos,ll_Coil_p3_H_min,ll_Coil_p3_L_min};
+s_Air_Window_3=news; Plane Surface(news) = {ll_Core_In_3,ll_Coil_p1_L_pos,ll_Coil_p1_H_pos,ll_Coil_p2_H_min,ll_Coil_p2_L_min,ll_Coil_p2_H_pos,ll_Coil_p2_L_pos,ll_Coil_p3_H_min,ll_Coil_p3_L_min};
 Physical Surface("AIR_WINDOW_3", AIR_WINDOW_3) = {s_Air_Window_3};
 
 // AIR WINDOW 4
